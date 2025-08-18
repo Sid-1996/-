@@ -1,7 +1,6 @@
 # 鳴潮智慧素材需求計算器  
 
 [![GitHub Pages 部署](https://img.shields.io/badge/線上使用-點擊訪問-brightgreen?style=for-the-badge)](https://sid-1996.github.io/WutheringWaves-Resource-Calculator/)  
-![計算器預覽](https://via.placeholder.com/800x400.png?text=鳴潮智慧素材需求計算器預覽)  
 
 ## 🌟 核心功能  
 
