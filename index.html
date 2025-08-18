@@ -5,179 +5,325 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>智慧素材需求計算器</title>
     <style>
-        /* 在這裡添加 CSS 樣式 */
         body {
             font-family: 'Microsoft JhengHei', sans-serif;
-            background-color: white;
-            max-width: 800px;
-            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
             padding: 20px;
         }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
         .title {
             text-align: center;
-            color: navy;
-            font-size: 1.5em;
+            color: #2c3e50;
+            font-size: 2.2em;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
+        
         .section {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 20px;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
         .section-title {
             font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
         }
+        
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
         .input-group {
             display: flex;
-            margin-bottom: 10px;
+            flex-direction: column;
             align-items: center;
         }
+        
         .input-group label {
-            width: 80px;
-            text-align: right;
-            margin-right: 10px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1.1em;
         }
+        
         .input-group input {
             width: 80px;
-            padding: 5px;
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.1em;
+            transition: border-color 0.3s ease;
         }
+        
+        .input-group input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        
         .button {
-            padding: 8px 15px;
-            margin-right: 10px;
+            padding: 10px 20px;
+            margin: 5px;
             cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            color: white;
         }
+        
+        .button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+        }
+        
+        .btn-success {
+            background: linear-gradient(45deg, #27ae60, #229954);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+        
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
             text-align: center;
+            border-bottom: 1px solid #ecf0f1;
         }
+        
         th {
-            background-color: #f2f2f2;
+            background: linear-gradient(45deg, #34495e, #2c3e50);
+            color: white;
             font-weight: bold;
+            font-size: 1em;
         }
-        .green { color: green; }
-        .blue { color: blue; }
-        .purple { color: purple; }
-        .gold { color: gold; }
-        .red { color: red; }
-        .gray { color: gray; }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        tr:hover {
+            background-color: #e8f4f8;
+            transition: background-color 0.3s ease;
+        }
+        
+        .green { color: #27ae60; font-weight: bold; }
+        .blue { color: #3498db; font-weight: bold; }
+        .purple { color: #9b59b6; font-weight: bold; }
+        .gold { color: #f39c12; font-weight: bold; }
+        .red { color: #e74c3c; font-weight: bold; }
+        .gray { color: #7f8c8d; }
+        
+        .highlight-box {
+            background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+            border: 2px solid #fdcb6e;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .strategy-box {
+            background: linear-gradient(45deg, #d4edda, #a8e6cf);
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .input-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 8px 4px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="title">🎮 智慧素材需求計算器 🎮</div>
-    
-    <!-- 目標需求設定區域 -->
-    <div class="section">
-        <div class="section-title">目標需求設定</div>
-        <div class="input-group">
-            <label for="target-green">綠色素材:</label>
-            <input type="number" id="target-green" value="31" min="0">
-            <label for="target-blue">藍色素材:</label>
-            <input type="number" id="target-blue" value="36" min="0">
-            <label for="target-purple">紫色素材:</label>
-            <input type="number" id="target-purple" value="61" min="0">
-            <label for="target-gold">金色素材:</label>
-            <input type="number" id="target-gold" value="87" min="0">
+    <div class="container">
+        <div class="title">🎮 智慧素材需求計算器 🎮</div>
+        
+        <!-- 目標需求設定區域 -->
+        <div class="section">
+            <div class="section-title">🎯 目標需求設定</div>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="target-green" class="green">🟢 綠色素材</label>
+                    <input type="number" id="target-green" value="31" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="target-blue" class="blue">🔵 藍色素材</label>
+                    <input type="number" id="target-blue" value="36" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="target-purple" class="purple">🟣 紫色素材</label>
+                    <input type="number" id="target-purple" value="61" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="target-gold" class="gold">🟡 金色素材</label>
+                    <input type="number" id="target-gold" value="87" min="0">
+                </div>
+            </div>
+            <div class="button-group">
+                <button class="button btn-primary" id="set-target">設定目標</button>
+                <button class="button btn-secondary" id="reset-target">重置預設</button>
+            </div>
         </div>
-        <button class="button" id="set-target">設定</button>
-        <button class="button" id="reset-target">重置</button>
-    </div>
-    
-    <!-- 當前持有數量 -->
-    <div class="section">
-        <div class="section-title">當前持有數量</div>
-        <div class="input-group">
-            <label for="current-green">綠色:</label>
-            <input type="number" id="current-green" value="0" min="0">
-            <label for="current-blue">藍色:</label>
-            <input type="number" id="current-blue" value="0" min="0">
-            <label for="current-purple">紫色:</label>
-            <input type="number" id="current-purple" value="0" min="0">
-            <label for="current-gold">金色:</label>
-            <input type="number" id="current-gold" value="0" min="0">
+        
+        <!-- 當前持有數量 -->
+        <div class="section">
+            <div class="section-title">📦 當前持有數量</div>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="current-green" class="green">🟢 綠色</label>
+                    <input type="number" id="current-green" value="407" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="current-blue" class="blue">🔵 藍色</label>
+                    <input type="number" id="current-blue" value="625" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="current-purple" class="purple">🟣 紫色</label>
+                    <input type="number" id="current-purple" value="107" min="0">
+                </div>
+                <div class="input-group">
+                    <label for="current-gold" class="gold">🟡 金色</label>
+                    <input type="number" id="current-gold" value="10" min="0">
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <!-- 當前狀態分析 -->
-    <div class="section">
-        <div class="section-title">當前狀態分析</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>顏色</th>
-                    <th>目標</th>
-                    <th>持有</th>
-                    <th>還缺</th>
-                    <th>基本需求</th>
-                    <th>可向上合成</th>
-                    <th>溢出數量</th>
-                </tr>
-            </thead>
-            <tbody id="status-analysis">
-                <!-- 這裡會由 JavaScript 動態生成 -->
-            </tbody>
-        </table>
-    </div>
-    
-    <!-- 智慧合成優化分析 -->
-    <div class="section">
-        <div class="section-title">🧠 智慧模擬合成分析(保留需求數量，將溢出的向上模擬合成)</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>顏色</th>
-                    <th>模擬合成後數量</th>
-                    <th>實際還缺</th>
-                    <th>模擬合成次數</th>
-                    <th>最終刷取建議</th>
-                </tr>
-            </thead>
-            <tbody id="optimized-analysis">
-                <!-- 這裡會由 JavaScript 動態生成 -->
-            </tbody>
-        </table>
-    </div>
-    
-    <!-- 按鈕區域 -->
-    <div>
-        <button class="button" id="reset">重置</button>
-        <button class="button" id="copy">複製完整分析</button>
-        <button class="button" id="calculate">重新分析</button>
-        <button class="button" id="about">說明</button>
+        
+        <!-- 逆向計算策略 -->
+        <div class="section">
+            <div class="section-title">🧠 逆向計算最佳策略</div>
+            <div class="strategy-box">
+                <div id="reverse-strategy"></div>
+            </div>
+        </div>
+        
+        <!-- 當前狀態分析 -->
+        <div class="section">
+            <div class="section-title">📊 當前狀態分析</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>顏色</th>
+                        <th>目標</th>
+                        <th>持有</th>
+                        <th>缺少/多餘</th>
+                        <th>可合成次數</th>
+                        <th>建議操作</th>
+                    </tr>
+                </thead>
+                <tbody id="status-analysis">
+                    <!-- 這裡會由 JavaScript 動態生成 -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 模擬執行結果 -->
+        <div class="section">
+            <div class="section-title">🔄 模擬執行結果</div>
+            <div class="highlight-box">
+                <div id="simulation-result"></div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>顏色</th>
+                        <th>執行前</th>
+                        <th>合成操作</th>
+                        <th>執行後</th>
+                        <th>與目標比較</th>
+                    </tr>
+                </thead>
+                <tbody id="simulation-table">
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 按鈕區域 -->
+        <div class="button-group">
+            <button class="button btn-secondary" id="reset">重置數據</button>
+            <button class="button btn-success" id="copy">複製分析報告</button>
+            <button class="button btn-primary" id="calculate">重新計算</button>
+            <button class="button btn-warning" id="about">使用說明</button>
+        </div>
     </div>
     
     <script>
-        // 這裡添加 JavaScript 代碼
         const config = {
-            defaultRequirements: {
-                green: 31,
-                blue: 36,
-                purple: 61,
-                gold: 87
-            },
-            requirements: {
-                green: 31,
-                blue: 36,
-                purple: 61,
-                gold: 87
-            },
-            colors: {
-                green: "綠",
-                blue: "藍",
-                purple: "紫",
-                gold: "金"
-            },
-            colorOrder: ["green", "blue", "purple", "gold"]
+            defaultRequirements: { green: 31, blue: 36, purple: 61, gold: 87 },
+            requirements: { green: 31, blue: 36, purple: 61, gold: 87 },
+            colors: { green: "綠", blue: "藍", purple: "紫", gold: "金" },
+            colorOrder: ["green", "blue", "purple", "gold"],
+            icons: { green: "🟢", blue: "🔵", purple: "🟣", gold: "🟡" }
         };
         
-        // DOM 元素
         const elements = {
             targets: {
                 green: document.getElementById("target-green"),
@@ -191,8 +337,10 @@
                 purple: document.getElementById("current-purple"),
                 gold: document.getElementById("current-gold")
             },
+            reverseStrategy: document.getElementById("reverse-strategy"),
             statusTable: document.getElementById("status-analysis"),
-            optimizedTable: document.getElementById("optimized-analysis"),
+            simulationResult: document.getElementById("simulation-result"),
+            simulationTable: document.getElementById("simulation-table"),
             buttons: {
                 setTarget: document.getElementById("set-target"),
                 resetTarget: document.getElementById("reset-target"),
@@ -203,9 +351,7 @@
             }
         };
         
-        // 初始化
         function init() {
-            // 綁定事件
             elements.buttons.setTarget.addEventListener("click", setTargetRequirements);
             elements.buttons.resetTarget.addEventListener("click", resetTargetToDefault);
             elements.buttons.reset.addEventListener("click", resetAll);
@@ -213,25 +359,24 @@
             elements.buttons.calculate.addEventListener("click", updateCalculation);
             elements.buttons.about.addEventListener("click", showAbout);
             
-            // 綁定輸入變化事件
             for (const color of config.colorOrder) {
-                elements.currents[color].addEventListener("change", updateCalculation);
+                elements.currents[color].addEventListener("input", updateCalculation);
+                elements.targets[color].addEventListener("input", () => {
+                    setTargetRequirements();
+                    updateCalculation();
+                });
             }
             
-            // 初始計算
             updateCalculation();
         }
         
-        // 設定目標需求
         function setTargetRequirements() {
             for (const color of config.colorOrder) {
                 const value = parseInt(elements.targets[color].value) || 0;
                 config.requirements[color] = value;
             }
-            updateCalculation();
         }
         
-        // 重置目標需求
         function resetTargetToDefault() {
             for (const color of config.colorOrder) {
                 config.requirements[color] = config.defaultRequirements[color];
@@ -240,7 +385,6 @@
             updateCalculation();
         }
         
-        // 重置所有
         function resetAll() {
             for (const color of config.colorOrder) {
                 elements.currents[color].value = 0;
@@ -248,164 +392,380 @@
             updateCalculation();
         }
         
-        // 更新計算
+        // 逆向計算最佳策略
+        function calculateReverseStrategy() {
+            const targets = config.requirements;
+            
+            // 從金色開始逆向計算實際需要的各色素材數量
+            let actualNeed = {
+                gold: targets.gold,
+                purple: targets.purple,
+                blue: targets.blue,
+                green: targets.green
+            };
+            
+            // 逆向計算：如果金色不足，需要多少紫色來合成
+            if (actualNeed.gold > 0) {
+                actualNeed.purple = Math.max(actualNeed.purple, Math.ceil(actualNeed.gold / 1) * 3);
+            }
+            
+            // 如果紫色不足，需要多少藍色來合成
+            const purpleFromBlue = Math.max(0, actualNeed.purple - targets.purple);
+            if (purpleFromBlue > 0) {
+                actualNeed.blue = Math.max(actualNeed.blue, targets.blue + Math.ceil(purpleFromBlue / 1) * 3);
+            }
+            
+            // 如果藍色不足，需要多少綠色來合成
+            const blueFromGreen = Math.max(0, actualNeed.blue - targets.blue);
+            if (blueFromGreen > 0) {
+                actualNeed.green = Math.max(actualNeed.green, targets.green + Math.ceil(blueFromGreen / 1) * 3);
+            }
+            
+            return actualNeed;
+        }
+        
+        // 計算最優合成策略 - 精確達標版本
+        function calculateOptimalStrategy(current) {
+            const targets = config.requirements;
+            let strategy = {
+                synthesize: { green: 0, blue: 0, purple: 0 },
+                final: { ...current },
+                waste: { green: 0, blue: 0, purple: 0, gold: 0 }
+            };
+            
+            // 複製當前數量進行模擬
+            let workingAmounts = { ...current };
+            
+            // 逆向計算：從金色開始，計算剛好需要多少合成
+            // 第一步：計算金色缺口
+            let goldDeficit = Math.max(0, targets.gold - workingAmounts.gold);
+            
+            if (goldDeficit > 0) {
+                // 需要合成金色
+                let purpleNeededForGold = goldDeficit * 3;
+                
+                // 檢查紫色是否足夠
+                let availablePurpleForGold = Math.max(0, workingAmounts.purple - targets.purple);
+                let purpleMade = Math.min(purpleNeededForGold, availablePurpleForGold);
+                let goldMade = Math.floor(purpleMade / 3);
+                
+                if (goldMade > 0) {
+                    strategy.synthesize.purple = goldMade;
+                    workingAmounts.purple -= goldMade * 3;
+                    workingAmounts.gold += goldMade;
+                    goldDeficit -= goldMade;
+                }
+                
+                // 如果金色還不夠，需要用藍色合成紫色
+                if (goldDeficit > 0) {
+                    let morePurpleNeeded = goldDeficit * 3;
+                    let availableBlueForPurple = Math.max(0, workingAmounts.blue - targets.blue);
+                    let blueMadeIntoPurple = Math.min(morePurpleNeeded * 3, availableBlueForPurple);
+                    let purpleMadeFromBlue = Math.floor(blueMadeIntoPurple / 3);
+                    
+                    if (purpleMadeFromBlue > 0) {
+                        strategy.synthesize.blue += purpleMadeFromBlue;
+                        workingAmounts.blue -= purpleMadeFromBlue * 3;
+                        workingAmounts.purple += purpleMadeFromBlue;
+                        
+                        // 現在用新得到的紫色合成金色
+                        let newGoldMade = Math.min(purpleMadeFromBlue, goldDeficit);
+                        if (newGoldMade > 0) {
+                            strategy.synthesize.purple += newGoldMade;
+                            workingAmounts.purple -= newGoldMade * 3;
+                            workingAmounts.gold += newGoldMade;
+                            goldDeficit -= newGoldMade;
+                        }
+                    }
+                }
+                
+                // 如果還不夠，需要用綠色合成
+                if (goldDeficit > 0) {
+                    let morePurpleNeeded = goldDeficit * 3;
+                    let moreBlueNeeded = morePurpleNeeded * 3;
+                    let availableGreenForBlue = Math.max(0, workingAmounts.green - targets.green);
+                    let greenMadeIntoBlue = Math.min(moreBlueNeeded * 3, availableGreenForBlue);
+                    let blueMadeFromGreen = Math.floor(greenMadeIntoBlue / 3);
+                    
+                    if (blueMadeFromGreen > 0) {
+                        strategy.synthesize.green += blueMadeFromGreen;
+                        workingAmounts.green -= blueMadeFromGreen * 3;
+                        workingAmounts.blue += blueMadeFromGreen;
+                        
+                        // 繼續合成鏈
+                        let purpleMadeFromNewBlue = Math.floor(blueMadeFromGreen / 3);
+                        if (purpleMadeFromNewBlue > 0) {
+                            strategy.synthesize.blue += purpleMadeFromNewBlue;
+                            workingAmounts.blue -= purpleMadeFromNewBlue * 3;
+                            workingAmounts.purple += purpleMadeFromNewBlue;
+                            
+                            let goldMadeFromNewPurple = Math.min(purpleMadeFromNewBlue, goldDeficit);
+                            if (goldMadeFromNewPurple > 0) {
+                                strategy.synthesize.purple += goldMadeFromNewPurple;
+                                workingAmounts.purple -= goldMadeFromNewPurple * 3;
+                                workingAmounts.gold += goldMadeFromNewPurple;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // 第二步：處理紫色缺口（如果有）
+            let purpleDeficit = Math.max(0, targets.purple - workingAmounts.purple);
+            if (purpleDeficit > 0) {
+                let availableBlue = Math.max(0, workingAmounts.blue - targets.blue);
+                let blueNeeded = purpleDeficit * 3;
+                let blueToUse = Math.min(blueNeeded, availableBlue);
+                let purpleMade = Math.floor(blueToUse / 3);
+                
+                if (purpleMade > 0) {
+                    strategy.synthesize.blue += purpleMade;
+                    workingAmounts.blue -= purpleMade * 3;
+                    workingAmounts.purple += purpleMade;
+                    purpleDeficit -= purpleMade;
+                }
+                
+                // 如果還不夠，用綠色
+                if (purpleDeficit > 0) {
+                    let moreBlueNeeded = purpleDeficit * 3;
+                    let availableGreen = Math.max(0, workingAmounts.green - targets.green);
+                    let greenNeeded = moreBlueNeeded * 3;
+                    let greenToUse = Math.min(greenNeeded, availableGreen);
+                    let blueMadeFromGreen = Math.floor(greenToUse / 3);
+                    
+                    if (blueMadeFromGreen > 0) {
+                        strategy.synthesize.green += blueMadeFromGreen;
+                        workingAmounts.green -= blueMadeFromGreen * 3;
+                        workingAmounts.blue += blueMadeFromGreen;
+                        
+                        let morePurpleMade = Math.floor(blueMadeFromGreen / 3);
+                        if (morePurpleMade > 0) {
+                            strategy.synthesize.blue += morePurpleMade;
+                            workingAmounts.blue -= morePurpleMade * 3;
+                            workingAmounts.purple += morePurpleMade;
+                        }
+                    }
+                }
+            }
+            
+            // 第三步：處理藍色缺口（如果有）
+            let blueDeficit = Math.max(0, targets.blue - workingAmounts.blue);
+            if (blueDeficit > 0) {
+                let availableGreen = Math.max(0, workingAmounts.green - targets.green);
+                let greenNeeded = blueDeficit * 3;
+                let greenToUse = Math.min(greenNeeded, availableGreen);
+                let blueMade = Math.floor(greenToUse / 3);
+                
+                if (blueMade > 0) {
+                    strategy.synthesize.green += blueMade;
+                    workingAmounts.green -= blueMade * 3;
+                    workingAmounts.blue += blueMade;
+                }
+            }
+            
+            strategy.final = workingAmounts;
+            
+            // 計算剩餘
+            for (const color of config.colorOrder) {
+                strategy.waste[color] = Math.max(0, workingAmounts[color] - targets[color]);
+            }
+            
+            return strategy;
+        }
+        
         function updateCalculation() {
             const current = {};
             for (const color of config.colorOrder) {
                 current[color] = parseInt(elements.currents[color].value) || 0;
             }
             
+            updateReverseStrategy();
             updateCurrentStatus(current);
-            performSmartOptimization(current);
+            updateSimulation(current);
         }
         
-        // 更新當前狀態
+        function updateReverseStrategy() {
+            const actualNeed = calculateReverseStrategy();
+            const current = {};
+            
+            for (const color of config.colorOrder) {
+                current[color] = parseInt(elements.currents[color].value) || 0;
+            }
+            
+            let html = "<h3>🎯 逆向分析結果：</h3>";
+            html += "<div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;'>";
+            
+            for (const color of config.colorOrder) {
+                const need = actualNeed[color];
+                const have = current[color];
+                const status = have >= need ? "✅" : "❌";
+                const diff = have - need;
+                
+                html += `
+                <div style='background: ${color === "green" ? "#e8f5e8" : color === "blue" ? "#e8f4fd" : color === "purple" ? "#f4e8fd" : "#fff8e8"}; 
+                           padding: 10px; border-radius: 8px; text-align: center;'>
+                    <div class="${color}">${config.icons[color]} ${config.colors[color]}色</div>
+                    <div>實際需求: <strong>${need}</strong></div>
+                    <div>當前持有: <strong>${have}</strong></div>
+                    <div>${status} ${diff >= 0 ? `多出 ${diff}` : `缺少 ${Math.abs(diff)}`}</div>
+                </div>`;
+            }
+            html += "</div>";
+            
+            elements.reverseStrategy.innerHTML = html;
+        }
+        
         function updateCurrentStatus(current) {
             let html = "";
             
             for (const color of config.colorOrder) {
                 const need = config.requirements[color];
                 const have = current[color];
-                const missing = Math.max(0, need - have);
-                const excess = Math.max(0, have - need);
+                const diff = have - need;
                 const canMake = color !== "gold" ? Math.floor(have / 3) : 0;
+                
+                let advice = "";
+                if (diff >= 0) {
+                    advice = diff === 0 ? "剛好達標" : `多出 ${diff} 個`;
+                } else {
+                    advice = `缺少 ${Math.abs(diff)} 個`;
+                }
+                
+                let synthesizeInfo = "";
+                if (color !== "gold") {
+                    synthesizeInfo = canMake > 0 ? `可合成 ${canMake} 次` : "無法合成";
+                } else {
+                    synthesizeInfo = "最高等級";
+                }
                 
                 html += `
                 <tr>
-                    <td class="${color}">${getColorIcon(color)}${config.colors[color]}</td>
+                    <td class="${color}">${config.icons[color]} ${config.colors[color]}色</td>
                     <td>${need}</td>
                     <td>${have}</td>
-                    <td class="${missing > 0 ? "red" : "green"}">${missing}</td>
-                    <td class="${missing > 0 ? "red" : "green"}">${
-                        missing > 0 ? `需要刷 ${missing} 個` : "✓ 足夠"
-                    }</td>
-                    <td class="${canMake > 0 ? "blue" : "gray"}">${
-                        color !== "gold" 
-                            ? (canMake > 0 ? `可合成 ${canMake} 次` : "無法合成")
-                            : "最高等級"
-                    }</td>
-                    <td class="${excess > 0 ? "red" : "gray"}">${
-                        excess > 0 ? `溢出 ${excess}` : "0"
-                    }</td>
+                    <td class="${diff >= 0 ? "green" : "red"}">${advice}</td>
+                    <td class="${canMake > 0 ? "blue" : "gray"}">${synthesizeInfo}</td>
+                    <td class="${diff >= 0 ? "green" : "red"}">${diff >= 0 ? "✅ 足夠" : "❌ 需要刷取"}</td>
                 </tr>`;
             }
             
             elements.statusTable.innerHTML = html;
         }
         
-        // 執行智慧優化
-        function performSmartOptimization(current) {
-            const optimized = {...current};
-            const synthPath = {};
-            const synthTimes = {}; // 記錄每種顏色的合成次數
+        function updateSimulation(current) {
+            const strategy = calculateOptimalStrategy(current);
             
-            // 從綠色開始向上合成優化
-            for (let i = 0; i < config.colorOrder.length - 1; i++) {
-                const color = config.colorOrder[i];
-                const nextColor = config.colorOrder[i + 1];
-                const need = config.requirements[color];
-                const have = optimized[color];
+            // 更新模擬結果說明
+            let resultHtml = "<h3>🔍 執行策略：</h3><ul>";
+            
+            if (strategy.synthesize.green > 0) {
+                resultHtml += `<li>🟢→🔵 將 ${strategy.synthesize.green * 3} 個綠色合成為 ${strategy.synthesize.green} 個藍色</li>`;
+            }
+            if (strategy.synthesize.blue > 0) {
+                resultHtml += `<li>🔵→🟣 將 ${strategy.synthesize.blue * 3} 個藍色合成為 ${strategy.synthesize.blue} 個紫色</li>`;
+            }
+            if (strategy.synthesize.purple > 0) {
+                resultHtml += `<li>🟣→🟡 將 ${strategy.synthesize.purple * 3} 個紫色合成為 ${strategy.synthesize.purple} 個金色</li>`;
+            }
+            
+            if (strategy.synthesize.green === 0 && strategy.synthesize.blue === 0 && strategy.synthesize.purple === 0) {
+                resultHtml += "<li>✨ 無需合成，當前資源已經最優配置</li>";
+            }
+            
+            resultHtml += "</ul>";
+            
+            // 檢查是否還有不足
+            let missingHtml = "<h3>📋 最終狀態：</h3><ul>";
+            let totalMissing = 0;
+            let allSatisfied = true;
+            
+            for (const color of config.colorOrder) {
+                const final = strategy.final[color];
+                const target = config.requirements[color];
+                const missing = Math.max(0, target - final);
                 
-                if (have > need) {
-                    const excess = have - need;
-                    const times = Math.floor(excess / 3);
-                    
-                    if (times > 0) {
-                        optimized[color] -= times * 3;
-                        optimized[nextColor] += times;
-                        synthPath[color] = `合成${times}次→${config.colors[nextColor]}`;
-                        synthTimes[color] = times;
-                    } else {
-                        synthTimes[color] = 0;
-                    }
+                if (missing > 0) {
+                    missingHtml += `<li class="red">❌ ${config.colors[color]}色還需要 ${missing} 個</li>`;
+                    totalMissing += missing;
+                    allSatisfied = false;
                 } else {
-                    synthTimes[color] = 0;
+                    const surplus = final - target;
+                    if (surplus > 0) {
+                        missingHtml += `<li class="green">✅ ${config.colors[color]}色達標 (多出 ${surplus} 個)</li>`;
+                    } else {
+                        missingHtml += `<li class="green">✅ ${config.colors[color]}色完美達標</li>`;
+                    }
                 }
             }
             
-            // 金色沒有合成選項
-            synthTimes["gold"] = 0;
+            if (allSatisfied) {
+                missingHtml += "<li style='color: #27ae60; font-weight: bold;'>🎉 所有目標都已達成！</li>";
+            } else {
+                missingHtml += `<li style='color: #e74c3c; font-weight: bold;'>⚠️ 總共還需要刷取 ${totalMissing} 個素材</li>`;
+            }
             
-            // 更新優化結果顯示
-            let html = "";
+            missingHtml += "</ul>";
             
+            elements.simulationResult.innerHTML = resultHtml + missingHtml;
+            
+            // 更新模擬表格
+            let tableHtml = "";
             for (const color of config.colorOrder) {
-                const need = config.requirements[color];
-                const optimizedAmount = optimized[color];
-                const realNeed = Math.max(0, need - optimizedAmount);
-                const times = synthTimes[color] || 0;
+                const before = current[color];
+                const after = strategy.final[color];
+                const target = config.requirements[color];
                 
-                let advice = "";
-                if (realNeed > 0) {
-                    advice = `🎯 還需刷取 ${realNeed} 個`;
-                } else if (optimizedAmount > need) {
-                    const surplus = optimizedAmount - need;
-                    advice = `✅ 達標 (多出 ${surplus} 個)`;
-                } else {
-                    advice = "✅ 剛好達標";
+                let operation = "無操作";
+                if (color === "green" && strategy.synthesize.green > 0) {
+                    operation = `合成 ${strategy.synthesize.green} 次 (-${strategy.synthesize.green * 3})`;
+                } else if (color === "blue") {
+                    let change = 0;
+                    if (strategy.synthesize.green > 0) change += strategy.synthesize.green;
+                    if (strategy.synthesize.blue > 0) change -= strategy.synthesize.blue * 3;
+                    if (change !== 0) {
+                        operation = `${change > 0 ? '+' : ''}${change}`;
+                    }
+                } else if (color === "purple") {
+                    let change = 0;
+                    if (strategy.synthesize.blue > 0) change += strategy.synthesize.blue;
+                    if (strategy.synthesize.purple > 0) change -= strategy.synthesize.purple * 3;
+                    if (change !== 0) {
+                        operation = `${change > 0 ? '+' : ''}${change}`;
+                    }
+                } else if (color === "gold" && strategy.synthesize.purple > 0) {
+                    operation = `+${strategy.synthesize.purple}`;
                 }
                 
-                html += `
+                let comparison = "";
+                if (after >= target) {
+                    const surplus = after - target;
+                    comparison = surplus === 0 ? "🎯 完美達標" : `✅ 達標 (+${surplus})`;
+                } else {
+                    comparison = `❌ 不足 (-${target - after})`;
+                }
+                
+                tableHtml += `
                 <tr>
-                    <td class="${color}">${getColorIcon(color)}${config.colors[color]}</td>
-                    <td class="${optimizedAmount >= need ? "green" : "red"}">${optimizedAmount}</td>
-                    <td class="${realNeed > 0 ? "red" : "green"}">${realNeed}</td>
-                    <td class="${times > 0 ? "blue" : "gray"}">${times > 0 ? `${times} 次` : "無合成"}</td>
-                    <td class="${realNeed > 0 ? "red" : "green"}">${advice}</td>
+                    <td class="${color}">${config.icons[color]} ${config.colors[color]}色</td>
+                    <td>${before}</td>
+                    <td class="${operation !== "無操作" ? "blue" : "gray"}">${operation}</td>
+                    <td class="${after >= target ? "green" : "red"}">${after}</td>
+                    <td class="${after >= target ? "green" : "red"}">${comparison}</td>
                 </tr>`;
             }
             
-            elements.optimizedTable.innerHTML = html;
+            elements.simulationTable.innerHTML = tableHtml;
         }
         
-        // 獲取顏色圖標
-        function getColorIcon(color) {
-            const icons = {
-                green: "🟢",
-                blue: "🔵",
-                purple: "🟣",
-                gold: "🟡"
-            };
-            return icons[color] || "";
-        }
-        
-        // 複製結果
         function copyResults() {
             const current = {};
-            const optimized = {};
-            const synthTimes = {};
-            
-            // 獲取當前數據
             for (const color of config.colorOrder) {
                 current[color] = parseInt(elements.currents[color].value) || 0;
-                optimized[color] = current[color];
             }
             
-            // 模擬合成過程
-            for (let i = 0; i < config.colorOrder.length - 1; i++) {
-                const color = config.colorOrder[i];
-                const nextColor = config.colorOrder[i + 1];
-                const need = config.requirements[color];
-                const have = optimized[color];
-                
-                if (have > need) {
-                    const excess = have - need;
-                    const times = Math.floor(excess / 3);
-                    
-                    if (times > 0) {
-                        optimized[color] -= times * 3;
-                        optimized[nextColor] += times;
-                        synthTimes[color] = times;
-                    } else {
-                        synthTimes[color] = 0;
-                    }
-                } else {
-                    synthTimes[color] = 0;
-                }
-            }
-            synthTimes["gold"] = 0;
+            const strategy = calculateOptimalStrategy(current);
             
-            let result = "=== 智慧素材需求分析報告 ===\n\n";
+            let result = "=== 🎮 智慧素材需求分析報告 ===\n\n";
             result += "📅 生成時間: " + new Date().toLocaleString() + "\n\n";
             
             // 1. 目標需求
@@ -420,22 +780,30 @@
                 result += `- ${config.colors[color]}色: ${current[color]} 個\n`;
             }
             
-            // 3. 模擬合成分析
-            result += "\n🧠 模擬合成分析:\n";
-            for (const color of config.colorOrder) {
-                if (color !== "gold" && synthTimes[color] > 0) {
-                    const nextColor = config.colorOrder[config.colorOrder.indexOf(color) + 1];
-                    result += `- 將 ${config.colors[color]}色合成 ${synthTimes[color]} 次 → 獲得 ${synthTimes[color]} 個${config.colors[nextColor]}色\n`;
-                }
+            // 3. 最佳合成策略
+            result += "\n🧠 最佳合成策略:\n";
+            if (strategy.synthesize.green > 0) {
+                result += `- 綠色合成: ${strategy.synthesize.green} 次 (消耗 ${strategy.synthesize.green * 3} 個綠色 → 獲得 ${strategy.synthesize.green} 個藍色)\n`;
+            }
+            if (strategy.synthesize.blue > 0) {
+                result += `- 藍色合成: ${strategy.synthesize.blue} 次 (消耗 ${strategy.synthesize.blue * 3} 個藍色 → 獲得 ${strategy.synthesize.blue} 個紫色)\n`;
+            }
+            if (strategy.synthesize.purple > 0) {
+                result += `- 紫色合成: ${strategy.synthesize.purple} 次 (消耗 ${strategy.synthesize.purple * 3} 個紫色 → 獲得 ${strategy.synthesize.purple} 個金色)\n`;
             }
             
-            // 4. 模擬後數量
-            result += "\n🔄 模擬合成後數量:\n";
+            if (strategy.synthesize.green === 0 && strategy.synthesize.blue === 0 && strategy.synthesize.purple === 0) {
+                result += "- 無需合成，當前資源已經最優配置\n";
+            }
+            
+            // 4. 執行後結果
+            result += "\n🔄 執行後數量:\n";
             for (const color of config.colorOrder) {
-                const need = config.requirements[color];
-                const after = optimized[color];
-                const status = after >= need ? "✓ 達標" : "✗ 不足";
-                result += `- ${config.colors[color]}色: ${after} 個 (${status})\n`;
+                const final = strategy.final[color];
+                const target = config.requirements[color];
+                const status = final >= target ? "✓ 達標" : "✗ 不足";
+                const diff = final - target;
+                result += `- ${config.colors[color]}色: ${final} 個 (${status}${diff !== 0 ? `, ${diff > 0 ? '+' : ''}${diff}` : ''})\n`;
             }
             
             // 5. 最終刷取建議
@@ -444,9 +812,9 @@
             let hasNeed = false;
             
             for (const color of config.colorOrder) {
-                const need = config.requirements[color];
-                const after = optimized[color];
-                const missing = Math.max(0, need - after);
+                const final = strategy.final[color];
+                const target = config.requirements[color];
+                const missing = Math.max(0, target - final);
                 
                 if (missing > 0) {
                     hasNeed = true;
@@ -456,14 +824,28 @@
             }
             
             if (!hasNeed) {
-                result += "- 所有素材都已達標，無需額外刷取！\n";
+                result += "- 🎉 所有素材都已達標，無需額外刷取！\n";
             } else {
-                result += `\n總計需要刷取: ${totalNeed} 個素材\n`;
+                result += `\n⚠️ 總計需要刷取: ${totalNeed} 個素材\n`;
+            }
+            
+            // 6. 效率分析
+            result += "\n📈 效率分析:\n";
+            const totalWaste = strategy.waste.green + strategy.waste.blue + strategy.waste.purple + strategy.waste.gold;
+            if (totalWaste > 0) {
+                result += `- 預計剩餘素材: ${totalWaste} 個\n`;
+                for (const color of config.colorOrder) {
+                    if (strategy.waste[color] > 0) {
+                        result += `  • ${config.colors[color]}色剩餘: ${strategy.waste[color]} 個\n`;
+                    }
+                }
+            } else {
+                result += "- ✨ 完美配置，無浪費素材\n";
             }
             
             // 複製到剪貼簿
             navigator.clipboard.writeText(result)
-                .then(() => alert("模擬合成分析報告已複製到剪貼簿！"))
+                .then(() => alert("📋 分析報告已複製到剪貼簿！"))
                 .catch(err => {
                     console.error("複製失敗:", err);
                     // 降級方案
@@ -473,31 +855,48 @@
                     textarea.select();
                     document.execCommand("copy");
                     document.body.removeChild(textarea);
-                    alert("分析報告已複製到剪貼簿！");
+                    alert("📋 分析報告已複製到剪貼簿！");
                 });
         }
         
-        // 顯示說明
         function showAbout() {
-            const about = `🎮 智慧素材需求計算器 v2.2\n\n
-✨ 功能特色:\n
-• 可自訂各色素材的目標需求數量\n
-• 智慧模擬合成系統，自動計算最佳合成策略\n
-• 詳細分析模擬合成後的素材數量變化\n
-• 提供精確的最終刷取建議\n\n
-📋 使用說明:\n
-1. 在「目標需求設定」設定您需要的各色素材數量\n
-2. 在「當前持有數量」輸入您目前擁有的素材\n
-3. 查看「智慧模擬合成分析」了解系統建議的合成策略\n
-4. 按照「最終刷取建議」進行素材收集\n\n
-🔄 模擬合成規則:\n
-• 每3個低階素材可合成1個高階素材\n
-• 系統會自動保留您設定的目標數量\n
-• 只會將超出部分的素材用於合成\n\n
-🎨 顏色標示:\n
-🟢 綠色: 已達標或足夠\n
-🔴 紅色: 不足或需要注意\n
-🔵 藍色: 合成相關操作\n
+            const about = `🎮 智慧素材需求計算器 v3.0
+
+✨ 核心功能:
+• 逆向計算最佳合成策略，避免資源浪費
+• 智慧分析當前素材配置
+• 精確計算最終刷取需求
+• 實時模擬合成結果
+
+🔧 合成規則:
+• 3個綠色 → 1個藍色
+• 3個藍色 → 1個紫色  
+• 3個紫色 → 1個金色
+• 合成不可逆，需要謹慎規劃
+
+📋 使用步驟:
+1. 設定各色素材的目標需求數量
+2. 輸入當前持有的素材數量
+3. 查看逆向分析的最佳策略
+4. 參考模擬執行結果進行合成
+5. 按照最終建議進行素材收集
+
+🎯 算法特色:
+• 從目標需求逆向推算實際需要量
+• 優先滿足高等級素材需求
+• 最小化資源浪費
+• 提供完整的執行路徑
+
+💡 使用技巧:
+• 建議先按照逆向分析進行合成
+• 注意保留足夠的目標素材數量
+• 合成前請仔細確認策略
+• 可隨時調整目標需求重新計算
+
+🎨 介面說明:
+🟢 綠色: 足夠/達標狀態
+🔴 紅色: 不足/需要關注
+🔵 藍色: 合成相關操作
 ⚪ 灰色: 無需操作`;
             
             alert(about);
