@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -133,9 +133,9 @@
             <thead>
                 <tr>
                     <th>顏色</th>
-                    <th>溢出合成後</th>
+                    <th>模擬合成後數量</th>
                     <th>實際還缺</th>
-                    <th>模擬合成</th>
+                    <th>模擬合成次數</th>
                     <th>最終刷取建議</th>
                 </tr>
             </thead>
@@ -297,6 +297,7 @@
         function performSmartOptimization(current) {
             const optimized = {...current};
             const synthPath = {};
+            const synthTimes = {}; // 記錄每種顏色的合成次數
             
             // 從綠色開始向上合成優化
             for (let i = 0; i < config.colorOrder.length - 1; i++) {
@@ -307,15 +308,23 @@
                 
                 if (have > need) {
                     const excess = have - need;
-                    const synthTimes = Math.floor(excess / 3);
+                    const times = Math.floor(excess / 3);
                     
-                    if (synthTimes > 0) {
-                        optimized[color] -= synthTimes * 3;
-                        optimized[nextColor] += synthTimes;
-                        synthPath[color] = `合成${synthTimes}次→${config.colors[nextColor]}`;
+                    if (times > 0) {
+                        optimized[color] -= times * 3;
+                        optimized[nextColor] += times;
+                        synthPath[color] = `合成${times}次→${config.colors[nextColor]}`;
+                        synthTimes[color] = times;
+                    } else {
+                        synthTimes[color] = 0;
                     }
+                } else {
+                    synthTimes[color] = 0;
                 }
             }
+            
+            // 金色沒有合成選項
+            synthTimes["gold"] = 0;
             
             // 更新優化結果顯示
             let html = "";
@@ -324,14 +333,14 @@
                 const need = config.requirements[color];
                 const optimizedAmount = optimized[color];
                 const realNeed = Math.max(0, need - optimizedAmount);
-                const path = synthPath[color] || "無合成";
+                const times = synthTimes[color] || 0;
                 
                 let advice = "";
                 if (realNeed > 0) {
                     advice = `🎯 還需刷取 ${realNeed} 個`;
                 } else if (optimizedAmount > need) {
                     const surplus = optimizedAmount - need;
-                    advice = `✅ 達標+多${surplus}個`;
+                    advice = `✅ 達標 (多出 ${surplus} 個)`;
                 } else {
                     advice = "✅ 剛好達標";
                 }
@@ -341,7 +350,7 @@
                     <td class="${color}">${getColorIcon(color)}${config.colors[color]}</td>
                     <td class="${optimizedAmount >= need ? "green" : "red"}">${optimizedAmount}</td>
                     <td class="${realNeed > 0 ? "red" : "green"}">${realNeed}</td>
-                    <td class="${path !== "無合成" ? "blue" : "gray"}">${path}</td>
+                    <td class="${times > 0 ? "blue" : "gray"}">${times > 0 ? `${times} 次` : "無合成"}</td>
                     <td class="${realNeed > 0 ? "red" : "green"}">${advice}</td>
                 </tr>`;
             }
@@ -362,65 +371,134 @@
         
         // 複製結果
         function copyResults() {
-            let result = "=== 智慧素材需求完整分析 ===\n\n";
+            const current = {};
+            const optimized = {};
+            const synthTimes = {};
             
-            result += "📊 當前狀態:\n";
+            // 獲取當前數據
             for (const color of config.colorOrder) {
-                const need = config.requirements[color];
-                const have = parseInt(elements.currents[color].value) || 0;
-                const missing = Math.max(0, need - have);
-                result += `${config.colors[color]}色: ${have}/${need} (原始缺${missing})\n`;
+                current[color] = parseInt(elements.currents[color].value) || 0;
+                optimized[color] = current[color];
             }
             
-            result += "\n🧠 智慧優化後:\n";
-            for (const color of config.colorOrder) {
+            // 模擬合成過程
+            for (let i = 0; i < config.colorOrder.length - 1; i++) {
+                const color = config.colorOrder[i];
+                const nextColor = config.colorOrder[i + 1];
                 const need = config.requirements[color];
-                const optimizedAmount = parseInt(elements.currents[color].value) || 0;
-                const realNeed = Math.max(0, need - optimizedAmount);
-                const path = "無合成"; // 簡化版本，實際應從優化結果獲取
+                const have = optimized[color];
                 
-                result += `${config.colors[color]}色: 優化後${optimizedAmount}/${need} (實際缺${realNeed}) - ${path}\n`;
+                if (have > need) {
+                    const excess = have - need;
+                    const times = Math.floor(excess / 3);
+                    
+                    if (times > 0) {
+                        optimized[color] -= times * 3;
+                        optimized[nextColor] += times;
+                        synthTimes[color] = times;
+                    } else {
+                        synthTimes[color] = 0;
+                    }
+                } else {
+                    synthTimes[color] = 0;
+                }
+            }
+            synthTimes["gold"] = 0;
+            
+            let result = "=== 智慧素材需求分析報告 ===\n\n";
+            result += "📅 生成時間: " + new Date().toLocaleString() + "\n\n";
+            
+            // 1. 目標需求
+            result += "🎯 目標需求:\n";
+            for (const color of config.colorOrder) {
+                result += `- ${config.colors[color]}色: ${config.requirements[color]} 個\n`;
             }
             
-            result += "\n💡 最終刷取清單:\n";
-            let totalNeed = 0;
+            // 2. 當前持有
+            result += "\n📦 當前持有:\n";
             for (const color of config.colorOrder) {
-                const realNeed = Math.max(0, config.requirements[color] - (parseInt(elements.currents[color].value) || 0));
-                if (realNeed > 0) {
-                    result += `${config.colors[color]}色: 還需刷 ${realNeed} 個\n`;
-                    totalNeed += realNeed;
+                result += `- ${config.colors[color]}色: ${current[color]} 個\n`;
+            }
+            
+            // 3. 模擬合成分析
+            result += "\n🧠 模擬合成分析:\n";
+            for (const color of config.colorOrder) {
+                if (color !== "gold" && synthTimes[color] > 0) {
+                    const nextColor = config.colorOrder[config.colorOrder.indexOf(color) + 1];
+                    result += `- 將 ${config.colors[color]}色合成 ${synthTimes[color]} 次 → 獲得 ${synthTimes[color]} 個${config.colors[nextColor]}色\n`;
                 }
             }
             
-            if (totalNeed > 0) {
-                result += `總刷取需求: ${totalNeed}個素材`;
-            } else {
-                result += "🎉 所有素材都已達標！無需額外刷取";
+            // 4. 模擬後數量
+            result += "\n🔄 模擬合成後數量:\n";
+            for (const color of config.colorOrder) {
+                const need = config.requirements[color];
+                const after = optimized[color];
+                const status = after >= need ? "✓ 達標" : "✗ 不足";
+                result += `- ${config.colors[color]}色: ${after} 個 (${status})\n`;
             }
             
+            // 5. 最終刷取建議
+            result += "\n💡 最終刷取建議:\n";
+            let totalNeed = 0;
+            let hasNeed = false;
+            
+            for (const color of config.colorOrder) {
+                const need = config.requirements[color];
+                const after = optimized[color];
+                const missing = Math.max(0, need - after);
+                
+                if (missing > 0) {
+                    hasNeed = true;
+                    totalNeed += missing;
+                    result += `- 還需刷取 ${config.colors[color]}色: ${missing} 個\n`;
+                }
+            }
+            
+            if (!hasNeed) {
+                result += "- 所有素材都已達標，無需額外刷取！\n";
+            } else {
+                result += `\n總計需要刷取: ${totalNeed} 個素材\n`;
+            }
+            
+            // 複製到剪貼簿
             navigator.clipboard.writeText(result)
-                .then(() => alert("完整分析結果已複製到剪貼簿！"))
-                .catch(err => console.error("複製失敗:", err));
+                .then(() => alert("模擬合成分析報告已複製到剪貼簿！"))
+                .catch(err => {
+                    console.error("複製失敗:", err);
+                    // 降級方案
+                    const textarea = document.createElement("textarea");
+                    textarea.value = result;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textarea);
+                    alert("分析報告已複製到剪貼簿！");
+                });
         }
         
         // 顯示說明
         function showAbout() {
-            const about = `🎮 智慧素材需求計算器 v2.1\n\n
-            ✨ 新功能:\n
-            • 可自訂目標需求數量\n
-            • 智慧模擬合成：自動計算模擬合成後\n
-            • 實際需求分析：顯示優化後真正需要刷取的數量\n
-            • 溢出利用：將多餘素材自動向上合成\n
-            • 節省統計：計算總共節省的刷取量\n\n
-            📋 使用說明:\n
-            1. 在「目標需求設定」區域設定各色素材的目標數量\n
-            2. 輸入當前持有的各色素材數量\n
-            3. 查看「當前狀態分析」了解基本需求\n
-            4. 查看「智慧模擬合成分析」獲得最佳策略\n
-            5. 按照「實際還缺」欄位進行刷取\n\n
-            🎨 顏色說明:\n
-            🔴 紅色 = 不足/溢出  🟢 綠色 = 足夠  🔵 藍色 = 合成建議\n
-            ⚪ 灰色 = 無動作`;
+            const about = `🎮 智慧素材需求計算器 v2.2\n\n
+✨ 功能特色:\n
+• 可自訂各色素材的目標需求數量\n
+• 智慧模擬合成系統，自動計算最佳合成策略\n
+• 詳細分析模擬合成後的素材數量變化\n
+• 提供精確的最終刷取建議\n\n
+📋 使用說明:\n
+1. 在「目標需求設定」設定您需要的各色素材數量\n
+2. 在「當前持有數量」輸入您目前擁有的素材\n
+3. 查看「智慧模擬合成分析」了解系統建議的合成策略\n
+4. 按照「最終刷取建議」進行素材收集\n\n
+🔄 模擬合成規則:\n
+• 每3個低階素材可合成1個高階素材\n
+• 系統會自動保留您設定的目標數量\n
+• 只會將超出部分的素材用於合成\n\n
+🎨 顏色標示:\n
+🟢 綠色: 已達標或足夠\n
+🔴 紅色: 不足或需要注意\n
+🔵 藍色: 合成相關操作\n
+⚪ 灰色: 無需操作`;
             
             alert(about);
         }
@@ -429,7 +507,4 @@
         init();
     </script>
 </body>
-
 </html>
-
-
