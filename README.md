@@ -1,40 +1,60 @@
-# 鳴潮智慧素材需求計算器  
+# 🎮 Sid的鳴潮智慧素材需求計算器
 
-[![GitHub Pages 部署](https://img.shields.io/badge/線上使用-點擊訪問-brightgreen?style=for-the-badge)](https://sid-1996.github.io/WutheringWaves-Resource-Calculator/)  
+這是一個簡單的 **網頁工具**，可以幫助《鳴潮》玩家計算角色養成所需要的素材數量，並提供 **合成策略建議** 和 **體力規劃**。  
+只要打開網頁，就能輸入你的需求和現有素材，系統會自動分析並生成報告。
 
-## 🌟 核心功能  
+🔗 線上試用：https://sid-1996.github.io/WutheringWaves-Resource-Calculator/
 
-- **即時動態計算**  
-  滑動調整技能等級即時更新需求，武器突破等級分段選擇  
-- **AI 資源調配演算法**  
-  ▸ 逆向需求推算  
-  ▸ 三階段合成路徑優化  
-  ▸ 綠色素材保護機制  
-- **凝素領域精算系統**  
-  智能計算最小刷取場次，自動緩衝10-15%  
-- **跨裝置相容**  
-  📱 手機/平板/電腦全適配  
+---
 
-## 🛠️ 使用教學  
+## 🚀 功能特色
+- 計算角色技能升級與武器突破所需素材  
+- 支援一鍵設定技能等級（6、8、10級）  
+- 支援武器 1~90 等突破需求  
+- 自動生成「最佳合成策略」（綠 → 藍 → 紫 → 金）  
+- 避免綠色素材被過度消耗  
+- 計算刷副本需要的場次與體力  
+- 產生詳細的報告，並能一鍵複製  
+- 現代化介面設計，使用方便  
 
-1. **設定培養目標**  
-   - 調整5項技能等級滑桿(1-10級)  
-   - 選擇武器突破階段(1-90級)  
+---
 
-2. **輸入持有素材**  
-   - 填寫當前擁有的綠/藍/紫/金素材數量  
+## 📂 專案檔案
+- index.html → 主程式，裡面包含網頁的 HTML、CSS 與 JavaScript  
+- README.md → 專案的說明文件（也就是你現在看到的這份內容）  
 
-3. **查看智能分析**  
-   - 資源狀態表顯示各素材缺口  
-   - 最佳合成策略推薦  
-   - 執行後預覽資源變化  
+---
 
-## 🚀 快速開始  
+## 💻 使用方法
+- 下載或複製這個專案：
+  git clone https://github.com/你的帳號/WutheringWaves-Resource-Calculator.git
 
-[![一鍵使用](https://img.shields.io/badge/立即使用-線上版-blue?style=flat-square)](https://sid-1996.github.io/WutheringWaves-Resource-Calculator/)  
+- 打開 index.html（用瀏覽器就能直接執行）。  
+- 或者直接點這裡使用 👉 線上版：https://sid-1996.github.io/WutheringWaves-Resource-Calculator/
 
-或本地運行：  
-```bash  
-git clone https://github.com/Sid-1996/WutheringWaves-Resource-Calculator.git  
-cd WutheringWaves-Resource-Calculator  
-# 雙擊 index.html 即可  
+---
+
+## 📖 使用說明
+- 調整角色技能等級與武器突破等級，系統會自動計算所需素材  
+- 輸入你目前擁有的素材數量  
+- 系統會立即顯示缺口、最佳合成策略與體力建議  
+- 你可以一鍵複製完整的詳細報告  
+
+---
+
+## 🖼️ 範例畫面
+建議在專案資料夾新增一張圖片，例如存成 images/screenshot.png，然後在這裡顯示：
+
+![工具示意圖](images/screenshot.png)
+
+---
+
+## 🛠 技術
+- 使用 HTML + CSS + JavaScript 開發  
+- UI 風格來自 TailwindCSS  
+- 字型採用 Noto Sans TC（Google Fonts）  
+
+---
+
+## 📜 授權
+本工具僅供學習與遊戲愛好者交流使用，請勿用於商業用途。
