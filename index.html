@@ -158,236 +158,245 @@
             <p class="header-subtitle">逆向演算法優化 • 智慧合成策略 • 零浪費資源配置</p>
         </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            <!-- Left Column: Controls -->
-            <div class="xl:col-span-2 space-y-6">
-                <!-- Character Skills Section -->
-                <div class="card">
-                    <div class="flex flex-wrap items-center justify-between mb-4">
-                        <h2 class="text-2xl card-title flex items-center">
-                            ⚔️ 角色技能等級設定
-                        </h2>
-                        <div class="flex gap-2 mt-2 sm:mt-0">
-                            <button id="skill-level-6" class="btn-secondary">
-                                6等
-                            </button>
-                            <button id="skill-level-8" class="btn-secondary">
-                                8等
-                            </button>
-                            <button id="skill-level-10" class="btn-secondary">
-                                10等
-                            </button>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="skill-control">
-                            <label class="block text-sm font-medium card-content mb-2">常態攻擊</label>
-                            <div class="flex items-center space-x-3">
-                                <span class="text-sm card-content">1</span>
-                                <input type="range" id="skill1" min="1" max="10" value="1" 
-                                       class="flex-1 h-2 rounded-lg appearance-none cursor-pointer slider-track">
-                                <span class="text-sm card-content">10</span>
-                                <span id="skill1-value" class="text-lg font-semibold material-blue w-8">1</span>
-                            </div>
-                        </div>
-                        <div class="skill-control">
-                            <label class="block text-sm font-medium card-content mb-2">共鳴技能</label>
-                            <div class="flex items-center space-x-3">
-                                <span class="text-sm card-content">1</span>
-                                <input type="range" id="skill2" min="1" max="10" value="1" 
-                                       class="flex-1 h-2 rounded-lg appearance-none cursor-pointer slider-track">
-                                <span class="text-sm card-content">10</span>
-                                <span id="skill2-value" class="text-lg font-semibold material-blue w-8">1</span>
-                            </div>
-                        </div>
-                        <div class="skill-control">
-                            <label class="block text-sm font-medium card-content mb-2">共鳴解放</label>
-                            <div class="flex items-center space-x-3">
-                                <span class="text-sm card-content">1</span>
-                                <input type="range" id="skill3" min="1" max="10" value="1" 
-                                       class="flex-1 h-2 rounded-lg appearance-none cursor-pointer slider-track">
-                                <span class="text-sm card-content">10</span>
-                                <span id="skill3-value" class="text-lg font-semibold material-blue w-8">1</span>
-                            </div>
-                        </div>
-                        <div class="skill-control">
-                            <label class="block text-sm font-medium card-content mb-2">變奏技能</label>
-                            <div class="flex items-center space-x-3">
-                                <span class="text-sm card-content">1</span>
-                                <input type="range" id="skill4" min="1" max="10" value="1" 
-                                       class="flex-1 h-2 rounded-lg appearance-none cursor-pointer slider-track">
-                                <span class="text-sm card-content">10</span>
-                                <span id="skill4-value" class="text-lg font-semibold material-blue w-8">1</span>
-                            </div>
-                        </div>
-                        <div class="skill-control md:col-span-2">
-                            <label class="block text-sm font-medium card-content mb-2">共鳴迴路</label>
-                            <div class="flex items-center space-x-3">
-                                <span class="text-sm card-content">1</span>
-                                <input type="range" id="skill5" min="1" max="10" value="1" 
-                                       class="flex-1 h-2 rounded-lg appearance-none cursor-pointer slider-track">
-                                <span class="text-sm card-content">10</span>
-                                <span id="skill5-value" class="text-lg font-semibold material-blue w-8">1</span>
-                            </div>
-                        </div>
+        <!-- 第一區塊：設定區域 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- 角色技能設定 -->
+            <div class="card">
+                <div class="flex flex-wrap items-center justify-between mb-6">
+                    <h2 class="text-2xl card-title flex items-center">
+                        ⚔️ 角色技能等級
+                    </h2>
+                    <div class="flex gap-2 mt-2 sm:mt-0">
+                        <button id="skill-level-6" class="btn-secondary text-sm px-3 py-1">
+                            6等
+                        </button>
+                        <button id="skill-level-8" class="btn-secondary text-sm px-3 py-1">
+                            8等
+                        </button>
+                        <button id="skill-level-10" class="btn-secondary text-sm px-3 py-1">
+                            10等
+                        </button>
                     </div>
                 </div>
-
-                <!-- Weapon Level Section -->
-                <div class="card">
-                    <h2 class="text-2xl card-title flex items-center">
-                        🗡️ 武器突破等級設定
-                    </h2>
+                <div class="space-y-4">
                     <div class="skill-control">
-                        <label class="block text-sm font-medium card-content mb-2">武器等級</label>
-                        <div class="flex items-center space-x-3">
-                            <span class="text-sm card-content">1</span>
-                            <input type="range" id="weapon" min="0" max="6" value="0" step="1"
-                                   class="flex-1 h-2 rounded-lg appearance-none cursor-pointer slider-track">
-                            <span class="text-sm card-content">90</span>
-                            <span id="weapon-value" class="text-lg font-semibold material-purple w-12">1級</span>
+                        <label class="block text-base font-medium card-content mb-3">常態攻擊</label>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm card-content w-4">1</span>
+                            <input type="range" id="skill1" min="1" max="10" value="1" 
+                                   class="flex-1 h-3 rounded-lg appearance-none cursor-pointer slider-track">
+                            <span class="text-sm card-content w-6">10</span>
+                            <span id="skill1-value" class="text-xl font-bold material-blue w-8 text-center">1</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Target Requirements -->
-                <div class="card" style="padding: 20px;">
-                    <h2 class="text-lg card-title flex items-center">
-                        🎯 目標需求
-                    </h2>
-                    <div class="grid grid-cols-2 gap-2 text-sm">
-                        <div class="flex justify-between items-center">
-                            <span class="flex items-center card-content"><span class="text-base mr-1">🟢</span>綠色</span>
-                            <span id="target-green" class="font-bold material-green">0</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="flex items-center card-content"><span class="text-base mr-1">🔵</span>藍色</span>
-                            <span id="target-blue" class="font-bold material-blue">0</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="flex items-center card-content"><span class="text-base mr-1">🟣</span>紫色</span>
-                            <span id="target-purple" class="font-bold material-purple">0</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="flex items-center card-content"><span class="text-base mr-1">🟡</span>金色</span>
-                            <span id="target-gold" class="font-bold material-gold">0</span>
+                    <div class="skill-control">
+                        <label class="block text-base font-medium card-content mb-3">共鳴技能</label>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm card-content w-4">1</span>
+                            <input type="range" id="skill2" min="1" max="10" value="1" 
+                                   class="flex-1 h-3 rounded-lg appearance-none cursor-pointer slider-track">
+                            <span class="text-sm card-content w-6">10</span>
+                            <span id="skill2-value" class="text-xl font-bold material-blue w-8 text-center">1</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Current Holdings Section -->
-                <div class="card">
-                    <h2 class="text-2xl card-title flex items-center">
-                        📦 當前持有數量
-                    </h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="text-center">
-                            <div class="bg-green-50 rounded-lg p-3 mb-2 border-2 border-green-100">
-                                <span class="text-2xl">🟢</span>
-                                <p class="text-sm font-medium material-green">綠色素材</p>
-                            </div>
-                            <input type="number" id="current-green" value="0" min="0" 
-                                   class="input-field w-full text-center">
-                        </div>
-                        <div class="text-center">
-                            <div class="bg-blue-50 rounded-lg p-3 mb-2 border-2 border-blue-100">
-                                <span class="text-2xl">🔵</span>
-                                <p class="text-sm font-medium material-blue">藍色素材</p>
-                            </div>
-                            <input type="number" id="current-blue" value="0" min="0" 
-                                   class="input-field w-full text-center">
-                        </div>
-                        <div class="text-center">
-                            <div class="bg-purple-50 rounded-lg p-3 mb-2 border-2 border-purple-100">
-                                <span class="text-2xl">🟣</span>
-                                <p class="text-sm font-medium material-purple">紫色素材</p>
-                            </div>
-                            <input type="number" id="current-purple" value="0" min="0" 
-                                   class="input-field w-full text-center">
-                        </div>
-                        <div class="text-center">
-                            <div class="bg-yellow-50 rounded-lg p-3 mb-2 border-2 border-yellow-100">
-                                <span class="text-2xl">🟡</span>
-                                <p class="text-sm font-medium material-gold">金色素材</p>
-                            </div>
-                            <input type="number" id="current-gold" value="0" min="0" 
-                                   class="input-field w-full text-center">
+                    <div class="skill-control">
+                        <label class="block text-base font-medium card-content mb-3">共鳴解放</label>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm card-content w-4">1</span>
+                            <input type="range" id="skill3" min="1" max="10" value="1" 
+                                   class="flex-1 h-3 rounded-lg appearance-none cursor-pointer slider-track">
+                            <span class="text-sm card-content w-6">10</span>
+                            <span id="skill3-value" class="text-xl font-bold material-blue w-8 text-center">1</span>
                         </div>
                     </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex flex-wrap gap-3 justify-center">
-                    <button id="max-cultivation-btn" class="btn-primary">
-                        🎓 一鍵畢業需求
-                    </button>
-                    <button id="reset-default-btn" class="btn-success">
-                        🎯 重置預設
-                    </button>
-                    <button id="reset-all-btn" class="btn-secondary" style="padding: 12px 24px;">
-                        🔄 重置數據
-                    </button>
-                    <button id="copy-report-btn" class="btn-warning">
-                        📋 複製報告
-                    </button>
+                    <div class="skill-control">
+                        <label class="block text-base font-medium card-content mb-3">變奏技能</label>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm card-content w-4">1</span>
+                            <input type="range" id="skill4" min="1" max="10" value="1" 
+                                   class="flex-1 h-3 rounded-lg appearance-none cursor-pointer slider-track">
+                            <span class="text-sm card-content w-6">10</span>
+                            <span id="skill4-value" class="text-xl font-bold material-blue w-8 text-center">1</span>
+                        </div>
+                    </div>
+                    <div class="skill-control">
+                        <label class="block text-base font-medium card-content mb-3">共鳴迴路</label>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm card-content w-4">1</span>
+                            <input type="range" id="skill5" min="1" max="10" value="1" 
+                                   class="flex-1 h-3 rounded-lg appearance-none cursor-pointer slider-track">
+                            <span class="text-sm card-content w-6">10</span>
+                            <span id="skill5-value" class="text-xl font-bold material-blue w-8 text-center">1</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Right Column: Results -->
+            <!-- 武器設定與目標需求 -->
             <div class="space-y-6">
-                <!-- Status Analysis -->
+                <!-- 武器等級設定 -->
                 <div class="card">
-                    <h2 class="text-xl card-title flex items-center">
-                        📊 狀態分析
+                    <h2 class="text-2xl card-title flex items-center mb-6">
+                        🗡️ 武器突破等級
                     </h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead>
-                                <tr class="border-b-2 border-gray-200">
-                                    <th class="text-left py-3 card-content font-semibold">素材</th>
-                                    <th class="text-center py-3 card-content font-semibold">目標</th>
-                                    <th class="text-center py-3 card-content font-semibold">持有</th>
-                                    <th class="text-center py-3 card-content font-semibold">狀態</th>
-                                </tr>
-                            </thead>
-                            <tbody id="status-table">
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 card-content">🟢 綠色</td>
-                                    <td class="text-center py-3 card-content" id="status-target-green">0</td>
-                                    <td class="text-center py-3 card-content" id="status-current-green">0</td>
-                                    <td class="text-center py-3" id="status-green">-</td>
-                                </tr>
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 card-content">🔵 藍色</td>
-                                    <td class="text-center py-3 card-content" id="status-target-blue">0</td>
-                                    <td class="text-center py-3 card-content" id="status-current-blue">0</td>
-                                    <td class="text-center py-3" id="status-blue">-</td>
-                                </tr>
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 card-content">🟣 紫色</td>
-                                    <td class="text-center py-3 card-content" id="status-target-purple">0</td>
-                                    <td class="text-center py-3 card-content" id="status-current-purple">0</td>
-                                    <td class="text-center py-3" id="status-purple">-</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 card-content">🟡 金色</td>
-                                    <td class="text-center py-3 card-content" id="status-target-gold">0</td>
-                                    <td class="text-center py-3 card-content" id="status-current-gold">0</td>
-                                    <td class="text-center py-3" id="status-gold">-</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="skill-control">
+                        <label class="block text-base font-medium card-content mb-3">武器等級</label>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm card-content w-4">1</span>
+                            <input type="range" id="weapon" min="0" max="6" value="0" step="1"
+                                   class="flex-1 h-3 rounded-lg appearance-none cursor-pointer slider-track">
+                            <span class="text-sm card-content w-6">90</span>
+                            <span id="weapon-value" class="text-xl font-bold material-purple w-12 text-center">1級</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Strategy Display -->
+                <!-- 目標需求 -->
                 <div class="card">
-                    <h2 class="text-xl card-title flex items-center">
-                        🧠 最佳合成策略
-                        <span class="ml-2 px-2 py-1 bg-blue-500 text-white text-xs rounded-full animate-bounce">重要</span>
+                    <h2 class="text-xl card-title flex items-center mb-4">
+                        🎯 目標需求總計
                     </h2>
-                    <div id="strategy-display" class="space-y-2 text-sm">
-                        <p class="card-content">輸入持有數量後自動顯示最佳策略</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-green-50 rounded-lg p-4 text-center border-2 border-green-200">
+                            <div class="text-2xl mb-2">🟢</div>
+                            <div class="text-sm card-content font-medium mb-1">綠色素材</div>
+                            <div id="target-green" class="text-2xl font-bold material-green">0</div>
+                        </div>
+                        <div class="bg-blue-50 rounded-lg p-4 text-center border-2 border-blue-200">
+                            <div class="text-2xl mb-2">🔵</div>
+                            <div class="text-sm card-content font-medium mb-1">藍色素材</div>
+                            <div id="target-blue" class="text-2xl font-bold material-blue">0</div>
+                        </div>
+                        <div class="bg-purple-50 rounded-lg p-4 text-center border-2 border-purple-200">
+                            <div class="text-2xl mb-2">🟣</div>
+                            <div class="text-sm card-content font-medium mb-1">紫色素材</div>
+                            <div id="target-purple" class="text-2xl font-bold material-purple">0</div>
+                        </div>
+                        <div class="bg-yellow-50 rounded-lg p-4 text-center border-2 border-yellow-200">
+                            <div class="text-2xl mb-2">🟡</div>
+                            <div class="text-sm card-content font-medium mb-1">金色素材</div>
+                            <div id="target-gold" class="text-2xl font-bold material-gold">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第二區塊：持有數量輸入 -->
+        <div class="card mb-8">
+            <h2 class="text-2xl card-title flex items-center mb-6">
+                📦 當前持有數量
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="bg-green-50 rounded-xl p-4 mb-4 border-2 border-green-200 hover:border-green-300 transition-colors">
+                        <span class="text-3xl block mb-2">🟢</span>
+                        <p class="text-base font-semibold material-green mb-2">綠色素材</p>
+                    </div>
+                    <input type="number" id="current-green" value="0" min="0" 
+                           class="input-field w-full text-center text-lg font-semibold" placeholder="0">
+                </div>
+                <div class="text-center">
+                    <div class="bg-blue-50 rounded-xl p-4 mb-4 border-2 border-blue-200 hover:border-blue-300 transition-colors">
+                        <span class="text-3xl block mb-2">🔵</span>
+                        <p class="text-base font-semibold material-blue mb-2">藍色素材</p>
+                    </div>
+                    <input type="number" id="current-blue" value="0" min="0" 
+                           class="input-field w-full text-center text-lg font-semibold" placeholder="0">
+                </div>
+                <div class="text-center">
+                    <div class="bg-purple-50 rounded-xl p-4 mb-4 border-2 border-purple-200 hover:border-purple-300 transition-colors">
+                        <span class="text-3xl block mb-2">🟣</span>
+                        <p class="text-base font-semibold material-purple mb-2">紫色素材</p>
+                    </div>
+                    <input type="number" id="current-purple" value="0" min="0" 
+                           class="input-field w-full text-center text-lg font-semibold" placeholder="0">
+                </div>
+                <div class="text-center">
+                    <div class="bg-yellow-50 rounded-xl p-4 mb-4 border-2 border-yellow-200 hover:border-yellow-300 transition-colors">
+                        <span class="text-3xl block mb-2">🟡</span>
+                        <p class="text-base font-semibold material-gold mb-2">金色素材</p>
+                    </div>
+                    <input type="number" id="current-gold" value="0" min="0" 
+                           class="input-field w-full text-center text-lg font-semibold" placeholder="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三區塊：快捷操作按鈕 -->
+        <div class="card mb-8">
+            <div class="flex flex-wrap gap-4 justify-center">
+                <button id="max-cultivation-btn" class="btn-primary text-lg px-8 py-4">
+                    🎓 一鍵畢業需求
+                </button>
+                <button id="reset-default-btn" class="btn-success text-lg px-8 py-4">
+                    🎯 重置預設
+                </button>
+                <button id="reset-all-btn" class="btn-secondary text-lg px-8 py-4">
+                    🔄 重置數據
+                </button>
+                <button id="copy-report-btn" class="btn-warning text-lg px-8 py-4">
+                    📋 複製報告
+                </button>
+            </div>
+        </div>
+
+        <!-- 第四區塊：分析結果 -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+            <!-- 狀態分析 -->
+            <div class="card">
+                <h2 class="text-xl card-title flex items-center mb-6">
+                    📊 資源狀態分析
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b-2 border-gray-200">
+                                <th class="text-left py-4 card-content font-semibold text-base">素材</th>
+                                <th class="text-center py-4 card-content font-semibold text-base">目標</th>
+                                <th class="text-center py-4 card-content font-semibold text-base">持有</th>
+                                <th class="text-center py-4 card-content font-semibold text-base">狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody id="status-table">
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-4 card-content text-base">🟢 綠色</td>
+                                <td class="text-center py-4 card-content text-base" id="status-target-green">0</td>
+                                <td class="text-center py-4 card-content text-base" id="status-current-green">0</td>
+                                <td class="text-center py-4 text-base" id="status-green">-</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-4 card-content text-base">🔵 藍色</td>
+                                <td class="text-center py-4 card-content text-base" id="status-target-blue">0</td>
+                                <td class="text-center py-4 card-content text-base" id="status-current-blue">0</td>
+                                <td class="text-center py-4 text-base" id="status-blue">-</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="py-4 card-content text-base">🟣 紫色</td>
+                                <td class="text-center py-4 card-content text-base" id="status-target-purple">0</td>
+                                <td class="text-center py-4 card-content text-base" id="status-current-purple">0</td>
+                                <td class="text-center py-4 text-base" id="status-purple">-</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-4 card-content text-base">🟡 金色</td>
+                                <td class="text-center py-4 card-content text-base" id="status-target-gold">0</td>
+                                <td class="text-center py-4 card-content text-base" id="status-current-gold">0</td>
+                                <td class="text-center py-4 text-base" id="status-gold">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 最佳合成策略 -->
+            <div class="card">
+                <h2 class="text-xl card-title flex items-center mb-6">
+                    🧠 最佳合成策略
+                    <span class="ml-3 px-3 py-1 bg-blue-500 text-white text-sm rounded-full animate-pulse">智慧推薦</span>
+                </h2>
+                <div id="strategy-display" class="space-y-3">
+                    <div class="bg-gray-50 rounded-lg p-4 text-center border-2 border-dashed border-gray-300">
+                        <p class="card-content text-base">輸入持有數量後自動顯示最佳策略</p>
                     </div>
                 </div>
             </div>
@@ -1322,5 +1331,5 @@
             firstWeaponBtn.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97145c85c72d4a9e',t:'MTc1NTU1MTA0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97146ca1b2d58085',t:'MTc1NTU1MTcwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
