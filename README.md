@@ -26,9 +26,6 @@
 ---
 
 ## 💻 使用方法
-- 下載或複製這個專案：
-  git clone https://github.com/Sid-1996/WutheringWaves-Resource-Calculator.git
-
 - 打開 index.html（用瀏覽器就能直接執行）。  
 - 或者直接點這裡使用 👉 線上版：https://sid-1996.github.io/WutheringWaves-Resource-Calculator/
 
