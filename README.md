@@ -3,7 +3,7 @@ Wuthering Waves – Resource Conversion & Upgrade Planning
 
 一個純前端的輕量工具，協助玩家用 **顏色階級（綠/藍/紫/金）** 與 **3:1 合成規則** 規劃素材，並以逆向方式推算最省素材的合成路徑。預設目標為「角色 + 武器全升滿」，可自行調整。
 
-**Demo**：<https://sid-1996.github.io/WutheringWaves-Resource-Conversion/>
+**Demo**：<https://sid-1996.github.io/WutheringWaves-Resource-Calculator/>
 
 ---
 
