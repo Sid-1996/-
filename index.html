@@ -77,13 +77,13 @@
     <div class="section">
         <div class="section-title">目標需求設定</div>
         <div class="input-group">
-            <label for="target-green">綠色目標:</label>
+            <label for="target-green">綠色素材:</label>
             <input type="number" id="target-green" value="31" min="0">
-            <label for="target-blue">藍色目標:</label>
+            <label for="target-blue">藍色素材:</label>
             <input type="number" id="target-blue" value="36" min="0">
-            <label for="target-purple">紫色目標:</label>
+            <label for="target-purple">紫色素材:</label>
             <input type="number" id="target-purple" value="61" min="0">
-            <label for="target-gold">金色目標:</label>
+            <label for="target-gold">金色素材:</label>
             <input type="number" id="target-gold" value="87" min="0">
         </div>
         <button class="button" id="set-target">設定</button>
@@ -128,14 +128,14 @@
     
     <!-- 智慧合成優化分析 -->
     <div class="section">
-        <div class="section-title">🧠 智慧合成優化分析</div>
+        <div class="section-title">🧠 智慧模擬合成分析</div>
         <table>
             <thead>
                 <tr>
                     <th>顏色</th>
                     <th>優化後持有</th>
                     <th>實際還缺</th>
-                    <th>合成路徑</th>
+                    <th>模擬合成</th>
                     <th>最終刷取建議</th>
                 </tr>
             </thead>
@@ -408,7 +408,7 @@
             const about = `🎮 智慧素材需求計算器 v2.1\n\n
             ✨ 新功能:\n
             • 可自訂目標需求數量\n
-            • 智慧合成優化：自動計算最佳合成路徑\n
+            • 智慧模擬合成：自動計算模擬合成後\n
             • 實際需求分析：顯示優化後真正需要刷取的數量\n
             • 溢出利用：將多餘素材自動向上合成\n
             • 節省統計：計算總共節省的刷取量\n\n
@@ -416,7 +416,7 @@
             1. 在「目標需求設定」區域設定各色素材的目標數量\n
             2. 輸入當前持有的各色素材數量\n
             3. 查看「當前狀態分析」了解基本需求\n
-            4. 查看「智慧合成優化分析」獲得最佳策略\n
+            4. 查看「智慧模擬合成分析」獲得最佳策略\n
             5. 按照「實際還缺」欄位進行刷取\n\n
             🎨 顏色說明:\n
             🔴 紅色 = 不足/溢出  🟢 綠色 = 足夠  🔵 藍色 = 合成建議\n
@@ -429,4 +429,5 @@
         init();
     </script>
 </body>
+
 </html>
