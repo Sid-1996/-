@@ -43,9 +43,8 @@
 ---
 
 ## 🖼️ 範例畫面
-建議在專案資料夾新增一張圖片，例如存成 images/screenshot.png，然後在這裡顯示：
 
-![工具示意圖](images/screenshot.png)
+![工具示意圖](screenshot.png)
 
 ---
 
