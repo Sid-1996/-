@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鳴潮智慧素材需求計算器</title>
+    <title>Sid的鳴潮智慧素材需求計算器</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap');
@@ -154,7 +154,7 @@
     <div class="container mx-auto px-4 py-8 max-w-7xl">
         <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold header-title mb-2">🎮 鳴潮智慧素材需求計算器</h1>
+            <h1 class="text-4xl font-bold header-title mb-2">🎮 Sid的鳴潮智慧素材需求計算器</h1>
             <p class="header-subtitle">逆向演算法優化 • 智慧合成策略 • 零浪費資源配置</p>
         </div>
 
@@ -449,6 +449,22 @@
             </div>
         </div>
 
+        <!-- Calculation Process Section -->
+        <div class="mt-6">
+            <div class="bg-gray-100 rounded-lg p-4 border border-gray-300">
+                <details class="cursor-pointer">
+                    <summary class="text-sm text-gray-600 font-medium hover:text-gray-800 transition-colors">
+                        🔍 計算過程詳情 (點擊展開)
+                    </summary>
+                    <div class="mt-4 pt-4 border-t border-gray-300">
+                        <div id="calculation-process" class="bg-white rounded p-3 font-mono text-xs text-gray-700 whitespace-pre-wrap border">
+點擊上方按鈕或輸入數據後顯示詳細計算過程...
+                        </div>
+                    </div>
+                </details>
+            </div>
+        </div>
+
         <!-- Instructions -->
         <div class="mt-8 card">
             <h3 class="text-lg card-title mb-3">📖 使用說明</h3>
@@ -483,6 +499,15 @@
                         <li>• 詳細的合成策略說明</li>
                         <li>• 執行前後數量對比</li>
                         <li>• 一鍵複製完整報告</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold card-title mb-2 text-base">⚡ 刷取方式說明</h4>
+                    <ul class="space-y-1 card-content">
+                        <li>• 常規(40體/場): 標準凝素領域</li>
+                        <li>• 安全(40體/場): 含緩衝的保險場次</li>
+                        <li>• 活動雙倍(40體/場): 雙倍掉落期間</li>
+                        <li>• 減負途徑(80體/場): 2倍素材掉落</li>
                     </ul>
                 </div>
             </div>
@@ -903,206 +928,256 @@
             return {strategy, finalAmounts, targets, current};
         }
 
-        // Generate detailed report
-        function generateReport(calculation) {
+        // Generate calculation process details
+        function generateCalculationProcess(calculation) {
             const {strategy, finalAmounts, targets, current} = calculation;
             const now = new Date().toLocaleString('zh-TW');
 
-            let report = `=== 🎯 素材需求精算報告 ===\n\n`;
+            let process = `🔍 計算過程詳情\n`;
+            process += `計算時間: ${now}\n\n`;
+
+            // 1. 初始狀態
+            process += `📊 初始狀態:\n`;
+            process += `目標需求: 綠${targets.green} 藍${targets.blue} 紫${targets.purple} 金${targets.gold}\n`;
+            process += `當前持有: 綠${current.green} 藍${current.blue} 紫${current.purple} 金${current.gold}\n\n`;
+
+            // 2. 逆向演算法計算過程
+            process += `🧮 逆向演算法計算:\n`;
             
-            report += `【基本資訊】\n`;
-            report += `⌚ 生成時間: ${now}\n\n`;
-
-            // 資源狀態分析
-            report += `【資源狀態】\n`;
-            const colors = [
-                {name: '🟢 綠色', key: 'green'},
-                {name: '🔵 藍色', key: 'blue'},
-                {name: '🟣 紫色', key: 'purple'},
-                {name: '🟡 金色', key: 'gold'}
-            ];
-
-            let achievedItems = [];
-            let shortageItems = [];
-
-            colors.forEach(({name, key}) => {
-                const currentVal = current[key];
-                const targetVal = targets[key];
-                const diff = currentVal - targetVal;
+            // Step 1: Gold calculation
+            const goldDeficit = Math.max(0, targets.gold - current.gold);
+            process += `步驟1 - 金色素材分析:\n`;
+            process += `  金色缺口 = max(0, ${targets.gold} - ${current.gold}) = ${goldDeficit}\n`;
+            
+            if (goldDeficit > 0) {
+                const purpleNeededForGold = goldDeficit * 3;
+                process += `  合成金色需要紫色 = ${goldDeficit} × 3 = ${purpleNeededForGold}\n`;
                 
-                if (diff >= 0) {
-                    achievedItems.push(`- ${name} ${currentVal}/${targetVal}`);
-                } else {
-                    shortageItems.push(`- ${name} ${currentVal}/${targetVal} (缺口:${Math.abs(diff)})`);
-                }
-            });
-
-            if (achievedItems.length > 0) {
-                report += `✅ 已達標:\n`;
-                achievedItems.forEach(item => report += `${item}\n`);
-            }
-            
-            if (shortageItems.length > 0) {
-                report += `⚠️ 需補足:\n`;
-                shortageItems.forEach(item => report += `${item}\n`);
-            }
-            
-            if (achievedItems.length === 0 && shortageItems.length === 0) {
-                report += `✅ 所有資源已達標\n`;
-            }
-            report += `\n`;
-
-            // 合成策略
-            report += `【合成策略】\n`;
-            if (strategy.length === 0) {
-                report += `✅ 無需合成，當前資源配置已達標\n\n`;
-            } else {
-                report += `🔄 三階段資源轉換:\n`;
-                strategy.forEach((step, index) => {
-                    const stepNum = ['1️⃣', '2️⃣', '3️⃣'][index] || `${index + 1}️⃣`;
+                // Step 2: Purple calculation
+                const totalPurpleNeeded = targets.purple + purpleNeededForGold;
+                const purpleDeficit = Math.max(0, totalPurpleNeeded - current.purple);
+                process += `步驟2 - 紫色素材分析:\n`;
+                process += `  紫色總需求 = ${targets.purple} + ${purpleNeededForGold} = ${totalPurpleNeeded}\n`;
+                process += `  紫色缺口 = max(0, ${totalPurpleNeeded} - ${current.purple}) = ${purpleDeficit}\n`;
+                
+                if (purpleDeficit > 0) {
+                    const blueNeededForPurple = purpleDeficit * 3;
+                    process += `  合成紫色需要藍色 = ${purpleDeficit} × 3 = ${blueNeededForPurple}\n`;
                     
-                    // 解析合成步驟
+                    // Step 3: Blue calculation
+                    const totalBlueNeeded = targets.blue + blueNeededForPurple;
+                    const blueDeficit = Math.max(0, totalBlueNeeded - current.blue);
+                    process += `步驟3 - 藍色素材分析:\n`;
+                    process += `  藍色總需求 = ${targets.blue} + ${blueNeededForPurple} = ${totalBlueNeeded}\n`;
+                    process += `  藍色缺口 = max(0, ${totalBlueNeeded} - ${current.blue}) = ${blueDeficit}\n`;
+                    
+                    if (blueDeficit > 0) {
+                        const greenNeededForBlue = blueDeficit * 3;
+                        const availableGreen = Math.max(0, current.green - targets.green);
+                        process += `步驟4 - 綠色素材分析:\n`;
+                        process += `  合成藍色需要綠色 = ${blueDeficit} × 3 = ${greenNeededForBlue}\n`;
+                        process += `  可用綠色 = max(0, ${current.green} - ${targets.green}) = ${availableGreen}\n`;
+                        process += `  綠色合成能力 = min(${Math.floor(availableGreen / 3)}, ${blueDeficit}) = ${Math.min(Math.floor(availableGreen / 3), blueDeficit)}\n`;
+                    }
+                }
+            } else {
+                process += `  無需金色素材，跳過後續計算\n`;
+            }
+
+            process += `\n`;
+
+            // 3. 合成執行過程
+            if (strategy.length > 0) {
+                process += `⚙️ 合成執行過程:\n`;
+                let tempAmounts = {...current};
+                
+                strategy.forEach((step, index) => {
+                    process += `執行步驟 ${index + 1}: ${step}\n`;
+                    
                     if (step.includes('綠→藍')) {
                         const matches = step.match(/(\d+) 次.*?(\d+) 綠色.*?(\d+) 藍色/);
                         if (matches) {
-                            report += `${stepNum} 綠→藍:\n`;
-                            report += `   - 消耗: ${matches[2]}綠\n`;
-                            report += `   - 獲得: ${matches[3]}藍\n`;
+                            const times = parseInt(matches[1]);
+                            const greenUsed = parseInt(matches[2]);
+                            const blueGained = parseInt(matches[3]);
+                            tempAmounts.green -= greenUsed;
+                            tempAmounts.blue += blueGained;
+                            process += `  執行後: 綠${tempAmounts.green} 藍${tempAmounts.blue}\n`;
                         }
                     } else if (step.includes('藍→紫')) {
                         const matches = step.match(/(\d+) 次.*?(\d+) 藍色.*?(\d+) 紫色/);
                         if (matches) {
-                            report += `${stepNum} 藍→紫:\n`;
-                            report += `   - 消耗: ${matches[2]}藍\n`;
-                            report += `   - 獲得: ${matches[3]}紫\n`;
+                            const times = parseInt(matches[1]);
+                            const blueUsed = parseInt(matches[2]);
+                            const purpleGained = parseInt(matches[3]);
+                            tempAmounts.blue -= blueUsed;
+                            tempAmounts.purple += purpleGained;
+                            process += `  執行後: 藍${tempAmounts.blue} 紫${tempAmounts.purple}\n`;
                         }
                     } else if (step.includes('紫→金')) {
                         const matches = step.match(/(\d+) 次.*?(\d+) 紫色.*?(\d+) 金色/);
                         if (matches) {
-                            report += `${stepNum} 紫→金:\n`;
-                            report += `   - 消耗: ${matches[2]}紫\n`;
-                            report += `   - 獲得: ${matches[3]}金\n`;
+                            const times = parseInt(matches[1]);
+                            const purpleUsed = parseInt(matches[2]);
+                            const goldGained = parseInt(matches[3]);
+                            tempAmounts.purple -= purpleUsed;
+                            tempAmounts.gold += goldGained;
+                            process += `  執行後: 紫${tempAmounts.purple} 金${tempAmounts.gold}\n`;
                         }
                     }
                 });
-                report += `\n`;
+            } else {
+                process += `⚙️ 無需執行合成操作\n`;
             }
 
-            // 凝素領域精準方案 - 計算合成後的缺口
-            const shortages = {
+            process += `\n`;
+
+            // 4. 最終結果驗證
+            process += `✅ 最終結果驗證:\n`;
+            process += `合成後持有: 綠${Math.floor(finalAmounts.green)} 藍${Math.floor(finalAmounts.blue)} 紫${Math.floor(finalAmounts.purple)} 金${Math.floor(finalAmounts.gold)}\n`;
+            process += `目標需求: 綠${targets.green} 藍${targets.blue} 紫${targets.purple} 金${targets.gold}\n`;
+            
+            const finalShortages = {
                 green: Math.max(0, targets.green - finalAmounts.green),
                 blue: Math.max(0, targets.blue - finalAmounts.blue),
                 purple: Math.max(0, targets.purple - finalAmounts.purple),
                 gold: Math.max(0, targets.gold - finalAmounts.gold)
             };
             
-            report += `=== 🎯 凝素領域精準方案 ===\n\n`;
-            
-            if (shortages.gold === 0 && shortages.purple === 0 && shortages.blue === 0 && shortages.green === 0) {
-                report += `✅ 無需刷取凝素領域，當前資源已足夠\n\n`;
-            } else if (shortages.gold > 0) {
-                // 使用新動態算法計算
-                const domainResult = calculateDomainRuns(shortages.gold, current);
-                
-                // 缺口分析
-                report += `【缺口分析】\n`;
-                report += `❗ 合成後仍需補足: ${shortages.gold}金\n`;
-                
-                // 精度控制
-                const precision = shortages.gold <= 20 ? 1 : 0;
-                const directRate = (0.25).toFixed(2);
-                const synthRate = ((domainResult.efficiency - 0.25)).toFixed(2);
-                const totalRate = domainResult.efficiency.toFixed(2);
-                
-                report += `📊 每場獲取率:\n`;
-                report += `   - 直接掉落: ${directRate}金\n`;
-                report += `   - 合成潛力: ${synthRate}金 (經三階轉換)\n`;
-                report += `   - 總效率: ${totalRate}金/場\n`;
-                report += `每場等效獲取：${totalRate}金\n\n`;
-                
-                // 動態場次驗證
-                const minRuns = domainResult.minRuns;
-                const safeRuns = domainResult.safeRuns;
-                const bufferPercent = Math.round(domainResult.bufferRate * 100);
-                
-                report += `【${minRuns}場實測驗證】\n`;
-                report += `✦ 直接獲取: ${(domainResult.directGold).toFixed(precision)}金 (${minRuns}×${directRate})\n`;
-                report += `✦ 合成獲取: ${(domainResult.synthGold).toFixed(precision)}金 (完整路徑):\n`;
-                
-                // 詳細合成路徑
-                const greenCollected = (minRuns * 6.42).toFixed(1);
-                const synthBlue = Math.floor(minRuns * 6.42 / 3);
-                const blueCollected = (minRuns * 8.00).toFixed(1);
-                const totalBlue = (minRuns * 8.00 + synthBlue).toFixed(1);
-                const synthPurple = Math.floor((minRuns * 8.00 + synthBlue) / 3);
-                const purpleCollected = (minRuns * 1.59).toFixed(1);
-                const totalPurple = (minRuns * 1.59 + synthPurple).toFixed(1);
-                const synthGold = Math.floor((minRuns * 1.59 + synthPurple) / 3);
-                
-                report += `   1️⃣ 收集${greenCollected}綠 → 合成${synthBlue}藍\n`;
-                report += `   2️⃣ 總藍量: ${synthBlue}(合成)+${blueCollected}(掉落)=${totalBlue} → 合成${synthPurple}紫\n`;
-                report += `   3️⃣ 總紫量: ${synthPurple}(合成)+${purpleCollected}(掉落)=${totalPurple} → 合成${synthGold}金\n`;
-                report += `✓ 總和: ${(domainResult.directGold).toFixed(precision)} + ${(domainResult.synthGold).toFixed(precision)} = ${(domainResult.totalGold).toFixed(precision)}金 ≥ ${shortages.gold}金\n\n`;
-                
-                // 執行建議
-                report += `【執行建議】\n`;
-                report += `┌───────────────┬─────────┐\n`;
-                report += `│ 精確最小場次       │ ${minRuns}場 (${minRuns * 40}體力) │\n`;
-                report += `├───────────────┼─────────┤\n`;
-                report += `│ 安全緩衝(${bufferPercent}%)      │ ${safeRuns}場 (${safeRuns * 40}體力) │\n`;
-                report += `└───────────────┴─────────┘\n\n`;
-                
-                // 資源驗證
-                report += `【資源驗證】\n`;
-                const resourceCheck = domainResult.resourceCheck;
-                
-                if (resourceCheck.green && resourceCheck.blue && resourceCheck.purple) {
-                    report += `✓ 綠色消耗: ${greenCollected} ≤ ${(current.green + minRuns * 6.42).toFixed(1)} (可用)\n`;
-                    report += `✓ 藍色平衡: \n`;
-                    report += `   - 消耗: ${totalBlue}\n`;
-                    report += `   - 來源: ${current.blue}(剩餘) + ${synthBlue}(合成) = ${(current.blue + synthBlue).toFixed(1)} ✔\n`;
-                    report += `✓ 紫色平衡:\n`;
-                    report += `   - 消耗: ${totalPurple}\n`;
-                    report += `   - 來源: ${current.purple}(剩餘) + ${synthPurple}(合成) = ${(current.purple + synthPurple).toFixed(1)} ✔\n\n`;
+            process += `剩餘缺口: 綠${finalShortages.green} 藍${finalShortages.blue} 紫${finalShortages.purple} 金${finalShortages.gold}\n`;
+
+            return process;
+        }
+
+        // Generate simplified report
+        function generateReport(calculation) {
+            const {strategy, finalAmounts, targets, current} = calculation;
+            const now = new Date().toLocaleString('zh-TW');
+
+            // 計算素材缺口（在報告開始就計算）
+            const shortages = {
+                green: Math.max(0, targets.green - finalAmounts.green),
+                blue: Math.max(0, targets.blue - finalAmounts.blue),
+                purple: Math.max(0, targets.purple - finalAmounts.purple),
+                gold: Math.max(0, targets.gold - finalAmounts.gold)
+            };
+
+            let report = `🎯 素材需求分析報告\n`;
+            report += `生成時間: ${now}\n\n`;
+
+            // 1. 資源狀態 - 簡化顯示
+            report += `📊 資源狀態\n`;
+            const colors = [
+                {name: '🟢綠', key: 'green'},
+                {name: '🔵藍', key: 'blue'}, 
+                {name: '🟣紫', key: 'purple'},
+                {name: '🟡金', key: 'gold'}
+            ];
+
+            let statusLine = '';
+            colors.forEach(({name, key}) => {
+                const diff = current[key] - targets[key];
+                if (diff >= 0) {
+                    statusLine += `${name}✓ `;
                 } else {
-                    report += `❗ 資源驗證不通過:\n`;
-                    if (!resourceCheck.green) {
-                        report += `   - 綠色不足，需優先刷取綠色至${Math.ceil(minRuns * 6.42 - current.green)}\n`;
-                    }
-                    if (!resourceCheck.blue) {
-                        report += `   - 藍色不足，需優先刷取藍色至${Math.ceil(minRuns * 8.00 - current.blue)}\n`;
-                    }
-                    if (!resourceCheck.purple) {
-                        report += `   - 紫色不足，需優先刷取紫色至${Math.ceil(minRuns * 1.59 - current.purple)}\n`;
-                    }
-                    report += `\n`;
+                    statusLine += `${name}缺${Math.abs(diff)} `;
+                }
+            });
+            report += statusLine + '\n\n';
+
+            // 2. 合成策略 - 簡化顯示
+            if (strategy.length === 0) {
+                // 檢查是否有任何素材缺口
+                const hasAnyShortage = Object.values(shortages).some(shortage => shortage > 0);
+                if (hasAnyShortage) {
+                    report += `🔄 無需合成\n\n`;
+                } else {
+                    report += `✅ 無需合成，資源已足夠\n\n`;
                 }
             } else {
-                // 處理其他素材缺口
-                report += `【缺口分析】\n`;
-                if (shortages.purple > 0) {
-                    report += `❗ 合成後仍需補足: ${shortages.purple}紫\n`;
-                } else if (shortages.blue > 0) {
-                    report += `❗ 合成後仍需補足: ${shortages.blue}藍\n`;
-                } else if (shortages.green > 0) {
-                    report += `❗ 合成後仍需補足: ${shortages.green}綠\n`;
-                }
-                
-                // 簡化計算非金色素材
-                const purpleRuns = shortages.purple > 0 ? Math.ceil(shortages.purple / 1.59) : 0;
-                const blueRuns = shortages.blue > 0 ? Math.ceil(shortages.blue / 8.00) : 0;
-                const greenRuns = shortages.green > 0 ? Math.ceil(shortages.green / 6.42) : 0;
-                const requiredRuns = Math.max(purpleRuns, blueRuns, greenRuns);
-                
-                if (requiredRuns > 0) {
-                    report += `【執行建議】\n`;
-                    report += `┌───────────────┬─────────┐\n`;
-                    report += `│ 建議場次          │ ${requiredRuns}場 (${requiredRuns * 40}體力) │\n`;
-                    report += `└───────────────┴─────────┘\n\n`;
-                }
+                report += `🔄 合成策略\n`;
+                strategy.forEach((step, index) => {
+                    if (step.includes('綠→藍')) {
+                        const matches = step.match(/(\d+) 綠色.*?(\d+) 藍色/);
+                        if (matches) report += `• 用${matches[1]}綠 → 得${matches[2]}藍\n`;
+                    } else if (step.includes('藍→紫')) {
+                        const matches = step.match(/(\d+) 藍色.*?(\d+) 紫色/);
+                        if (matches) report += `• 用${matches[1]}藍 → 得${matches[2]}紫\n`;
+                    } else if (step.includes('紫→金')) {
+                        const matches = step.match(/(\d+) 紫色.*?(\d+) 金色/);
+                        if (matches) report += `• 用${matches[1]}紫 → 得${matches[2]}金\n`;
+                    }
+                });
+                report += '\n';
             }
 
-            report += `\n（計算邏輯驗證：⌈缺額/(直接獲取率+合成轉換率)⌉）`;
+            // 3. 凝素領域建議 - 包含減負途徑和活動建議
+            if (shortages.gold === 0 && shortages.purple === 0 && shortages.blue === 0 && shortages.green === 0) {
+                report += `🎉 完美！無需刷取凝素領域\n`;
+            } else {
+                report += `⚡ 凝素領域建議\n`;
+                
+                if (shortages.gold > 0) {
+                    const domainResult = calculateDomainRuns(shortages.gold, current);
+                    report += `缺口: ${shortages.gold}金\n`;
+                    
+                    // 計算活動雙倍掉落建議
+                    const doubleDropRuns = Math.ceil(domainResult.minRuns / 2);
+                    const dailyLimit = 3;
+                    const doubleDropDays = Math.ceil(doubleDropRuns / dailyLimit);
+                    
+                    // 計算減負途徑建議
+                    const reducedRuns = Math.ceil(domainResult.minRuns / 2);
+                    
+                    report += `\n📋 刷取方案:\n`;
+                    report += `• 常規(40體/場): ${domainResult.minRuns}場 (${domainResult.minRuns * 40}體力) - 理論最少場次\n`;
+                    report += `• 安全(40體/場): ${domainResult.safeRuns}場 (${domainResult.safeRuns * 40}體力) - 含緩衝保險\n`;
+                    
+                    if (doubleDropRuns <= dailyLimit) {
+                        report += `• 活動雙倍(40體/場): ${doubleDropRuns}場 (${doubleDropRuns * 40}體力) - 1天內完成\n`;
+                    } else {
+                        const remainingRuns = domainResult.minRuns - (dailyLimit * 2 * doubleDropDays);
+                        if (remainingRuns > 0) {
+                            report += `• 活動雙倍(40體/場): ${dailyLimit}場×${doubleDropDays}天 + 常規${remainingRuns}場\n`;
+                            report += `  總計: ${(dailyLimit * doubleDropDays * 40) + (remainingRuns * 40)}體力\n`;
+                        } else {
+                            report += `• 活動雙倍(40體/場): ${dailyLimit}場×${doubleDropDays}天 (${dailyLimit * doubleDropDays * 40}體力)\n`;
+                        }
+                    }
+                    
+                    report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力) - 2倍素材掉落\n`;
+                    
+                } else if (shortages.purple > 0) {
+                    const runs = Math.ceil(shortages.purple / 1.59);
+                    const doubleRuns = Math.ceil(runs / 2);
+                    const reducedRuns = Math.ceil(runs / 2);
+                    
+                    report += `缺口: ${shortages.purple}紫\n`;
+                    report += `• 常規(40體/場): ${runs}場 (${runs * 40}體力)\n`;
+                    report += `• 活動雙倍(40體/場): ${doubleRuns}場 (${doubleRuns * 40}體力)\n`;
+                    report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力)\n`;
+                    
+                } else if (shortages.blue > 0) {
+                    const runs = Math.ceil(shortages.blue / 8.00);
+                    const doubleRuns = Math.ceil(runs / 2);
+                    const reducedRuns = Math.ceil(runs / 2);
+                    
+                    report += `缺口: ${shortages.blue}藍\n`;
+                    report += `• 常規(40體/場): ${runs}場 (${runs * 40}體力)\n`;
+                    report += `• 活動雙倍(40體/場): ${doubleRuns}場 (${doubleRuns * 40}體力)\n`;
+                    report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力)\n`;
+                    
+                } else if (shortages.green > 0) {
+                    const runs = Math.ceil(shortages.green / 6.42);
+                    const doubleRuns = Math.ceil(runs / 2);
+                    const reducedRuns = Math.ceil(runs / 2);
+                    
+                    report += `缺口: ${shortages.green}綠\n`;
+                    report += `• 常規(40體/場): ${runs}場 (${runs * 40}體力)\n`;
+                    report += `• 活動雙倍(40體/場): ${doubleRuns}場 (${doubleRuns * 40}體力)\n`;
+                    report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力)\n`;
+                }
+            }
 
             return report;
         }
@@ -1187,10 +1262,26 @@
             }
 
             const calculation = calculateOptimalStrategy();
-            const {strategy} = calculation;
+            const {strategy, current, targets} = calculation;
+
+            // 檢查是否有嚴重素材不足的情況
+            const shortages = {
+                green: Math.max(0, targets.green - current.green),
+                blue: Math.max(0, targets.blue - current.blue),
+                purple: Math.max(0, targets.purple - current.purple),
+                gold: Math.max(0, targets.gold - current.gold)
+            };
+
+            const hasSignificantShortage = shortages.gold > 10 || shortages.purple > 10 || 
+                                         shortages.blue > 10 || shortages.green > 10;
 
             // Update strategy display
             const strategyDisplay = document.getElementById('strategy-display');
+            
+            // 檢查是否有任何素材不足（不只是嚴重不足）
+            const hasAnyShortage = shortages.gold > 0 || shortages.purple > 0 || 
+                                  shortages.blue > 0 || shortages.green > 0;
+
             if (strategy.length === 0) {
                 strategyDisplay.innerHTML = '<p class="text-green-600 font-semibold">🎉 無需合成，當前資源已經最優配置！</p>';
             } else {
@@ -1205,6 +1296,10 @@
             // Generate and display report
             const report = generateReport(calculation);
             document.getElementById('report-content').textContent = report;
+
+            // Generate and display calculation process
+            const process = generateCalculationProcess(calculation);
+            document.getElementById('calculation-process').textContent = process;
         }
 
         // Event listeners
@@ -1331,6 +1426,5 @@
             firstWeaponBtn.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97146ca1b2d58085',t:'MTc1NTU1MTcwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'971e47cb512c5701',t:'MTc1NTY1NTA1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-
