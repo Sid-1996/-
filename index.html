@@ -93,6 +93,17 @@
             box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
         }
         
+        .btn-info {
+            background: linear-gradient(45deg, #17a2b8, #138496);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+        }
+        
         .slider-track {
             background: linear-gradient(to right, #bdc3c7 0%, #3498db 100%);
             height: 6px;
@@ -148,14 +159,91 @@
         .header-subtitle {
             color: rgba(255,255,255,0.9);
         }
+        
+        .language-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .language-btn.active {
+            background: white;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .record-item {
+            background: rgba(52, 152, 219, 0.05);
+            border: 1px solid rgba(52, 152, 219, 0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .record-item:hover {
+            background: rgba(52, 152, 219, 0.1);
+            border-color: rgba(52, 152, 219, 0.4);
+        }
+        
+        .record-item.active {
+            background: rgba(52, 152, 219, 0.15);
+            border-color: rgba(52, 152, 219, 0.5);
+        }
+        
+        .record-delete {
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .record-item:hover .record-delete {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
     <div class="container mx-auto px-4 py-8 max-w-7xl">
-        <!-- Header -->
+        <!-- Header with Language Selector -->
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold header-title mb-2">🎮 Sid的鳴潮智慧素材需求計算器</h1>
-            <p class="header-subtitle">逆向演算法優化 • 智慧合成策略 • 零浪費資源配置</p>
+            <div class="flex justify-end mb-4">
+                <div class="flex gap-2">
+                    <button id="lang-zh" class="language-btn active" data-lang="zh">中文</button>
+                    <button id="lang-en" class="language-btn" data-lang="en">English</button>
+                </div>
+            </div>
+            <h1 class="text-4xl font-bold header-title mb-2" data-i18n="title">🎮 Sid的鳴潮智慧素材需求計算器</h1>
+            <p class="header-subtitle" data-i18n="subtitle">逆向演算法優化 • 智慧合成策略 • 零浪費資源配置</p>
+        </div>
+
+        <!-- User Records Section -->
+        <div class="card mb-8">
+            <div class="flex flex-wrap items-center justify-between mb-6">
+                <h2 class="text-2xl card-title flex items-center" data-i18n="records.title">
+                    📋 使用記錄
+                </h2>
+                <div class="flex gap-2 mt-2 sm:mt-0">
+                    <button id="save-record-btn" class="btn-info text-sm px-4 py-2" data-i18n="records.save">
+                        💾 保存當前設定
+                    </button>
+                    <button id="clear-records-btn" class="btn-secondary text-sm px-4 py-2" data-i18n="records.clearAll">
+                        🗑️ 清空記錄
+                    </button>
+                </div>
+            </div>
+            <div id="records-list" class="space-y-2">
+                <p class="text-gray-500 text-center" data-i18n="records.empty">目前沒有保存的記錄</p>
+            </div>
         </div>
 
         <!-- 第一區塊：設定區域 -->
@@ -163,24 +251,24 @@
             <!-- 角色技能設定 -->
             <div class="card">
                 <div class="flex flex-wrap items-center justify-between mb-6">
-                    <h2 class="text-2xl card-title flex items-center">
+                    <h2 class="text-2xl card-title flex items-center" data-i18n="skills.title">
                         ⚔️ 角色技能等級
                     </h2>
                     <div class="flex gap-2 mt-2 sm:mt-0">
-                        <button id="skill-level-6" class="btn-secondary text-sm px-3 py-1">
+                        <button id="skill-level-6" class="btn-secondary text-sm px-3 py-1" data-i18n="skills.level6">
                             6等
                         </button>
-                        <button id="skill-level-8" class="btn-secondary text-sm px-3 py-1">
+                        <button id="skill-level-8" class="btn-secondary text-sm px-3 py-1" data-i18n="skills.level8">
                             8等
                         </button>
-                        <button id="skill-level-10" class="btn-secondary text-sm px-3 py-1">
+                        <button id="skill-level-10" class="btn-secondary text-sm px-3 py-1" data-i18n="skills.level10">
                             10等
                         </button>
                     </div>
                 </div>
                 <div class="space-y-4">
                     <div class="skill-control">
-                        <label class="block text-base font-medium card-content mb-3">常態攻擊</label>
+                        <label class="block text-base font-medium card-content mb-3" data-i18n="skills.normal">常態攻擊</label>
                         <div class="flex items-center space-x-4">
                             <span class="text-sm card-content w-4">1</span>
                             <input type="range" id="skill1" min="1" max="10" value="1" 
@@ -190,7 +278,7 @@
                         </div>
                     </div>
                     <div class="skill-control">
-                        <label class="block text-base font-medium card-content mb-3">共鳴技能</label>
+                        <label class="block text-base font-medium card-content mb-3" data-i18n="skills.resonance">共鳴技能</label>
                         <div class="flex items-center space-x-4">
                             <span class="text-sm card-content w-4">1</span>
                             <input type="range" id="skill2" min="1" max="10" value="1" 
@@ -200,7 +288,7 @@
                         </div>
                     </div>
                     <div class="skill-control">
-                        <label class="block text-base font-medium card-content mb-3">共鳴解放</label>
+                        <label class="block text-base font-medium card-content mb-3" data-i18n="skills.liberation">共鳴解放</label>
                         <div class="flex items-center space-x-4">
                             <span class="text-sm card-content w-4">1</span>
                             <input type="range" id="skill3" min="1" max="10" value="1" 
@@ -210,7 +298,7 @@
                         </div>
                     </div>
                     <div class="skill-control">
-                        <label class="block text-base font-medium card-content mb-3">變奏技能</label>
+                        <label class="block text-base font-medium card-content mb-3" data-i18n="skills.variation">變奏技能</label>
                         <div class="flex items-center space-x-4">
                             <span class="text-sm card-content w-4">1</span>
                             <input type="range" id="skill4" min="1" max="10" value="1" 
@@ -220,7 +308,7 @@
                         </div>
                     </div>
                     <div class="skill-control">
-                        <label class="block text-base font-medium card-content mb-3">共鳴迴路</label>
+                        <label class="block text-base font-medium card-content mb-3" data-i18n="skills.circuit">共鳴迴路</label>
                         <div class="flex items-center space-x-4">
                             <span class="text-sm card-content w-4">1</span>
                             <input type="range" id="skill5" min="1" max="10" value="1" 
@@ -236,11 +324,11 @@
             <div class="space-y-6">
                 <!-- 武器等級設定 -->
                 <div class="card">
-                    <h2 class="text-2xl card-title flex items-center mb-6">
+                    <h2 class="text-2xl card-title flex items-center mb-6" data-i18n="weapon.title">
                         🗡️ 武器突破等級
                     </h2>
                     <div class="skill-control">
-                        <label class="block text-base font-medium card-content mb-3">武器等級</label>
+                        <label class="block text-base font-medium card-content mb-3" data-i18n="weapon.level">武器等級</label>
                         <div class="flex items-center space-x-4">
                             <span class="text-sm card-content w-4">1</span>
                             <input type="range" id="weapon" min="0" max="6" value="0" step="1"
@@ -253,28 +341,28 @@
 
                 <!-- 目標需求 -->
                 <div class="card">
-                    <h2 class="text-xl card-title flex items-center mb-4">
+                    <h2 class="text-xl card-title flex items-center mb-4" data-i18n="target.title">
                         🎯 目標需求總計
                     </h2>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-green-50 rounded-lg p-4 text-center border-2 border-green-200">
                             <div class="text-2xl mb-2">🟢</div>
-                            <div class="text-sm card-content font-medium mb-1">綠色素材</div>
+                            <div class="text-sm card-content font-medium mb-1" data-i18n="materials.green">綠色素材</div>
                             <div id="target-green" class="text-2xl font-bold material-green">0</div>
                         </div>
                         <div class="bg-blue-50 rounded-lg p-4 text-center border-2 border-blue-200">
                             <div class="text-2xl mb-2">🔵</div>
-                            <div class="text-sm card-content font-medium mb-1">藍色素材</div>
+                            <div class="text-sm card-content font-medium mb-1" data-i18n="materials.blue">藍色素材</div>
                             <div id="target-blue" class="text-2xl font-bold material-blue">0</div>
                         </div>
                         <div class="bg-purple-50 rounded-lg p-4 text-center border-2 border-purple-200">
                             <div class="text-2xl mb-2">🟣</div>
-                            <div class="text-sm card-content font-medium mb-1">紫色素材</div>
+                            <div class="text-sm card-content font-medium mb-1" data-i18n="materials.purple">紫色素材</div>
                             <div id="target-purple" class="text-2xl font-bold material-purple">0</div>
                         </div>
                         <div class="bg-yellow-50 rounded-lg p-4 text-center border-2 border-yellow-200">
                             <div class="text-2xl mb-2">🟡</div>
-                            <div class="text-sm card-content font-medium mb-1">金色素材</div>
+                            <div class="text-sm card-content font-medium mb-1" data-i18n="materials.gold">金色素材</div>
                             <div id="target-gold" class="text-2xl font-bold material-gold">0</div>
                         </div>
                     </div>
@@ -284,14 +372,14 @@
 
         <!-- 第二區塊：持有數量輸入 -->
         <div class="card mb-8">
-            <h2 class="text-2xl card-title flex items-center mb-6">
+            <h2 class="text-2xl card-title flex items-center mb-6" data-i18n="current.title">
                 📦 當前持有數量
             </h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div class="text-center">
                     <div class="bg-green-50 rounded-xl p-4 mb-4 border-2 border-green-200 hover:border-green-300 transition-colors">
                         <span class="text-3xl block mb-2">🟢</span>
-                        <p class="text-base font-semibold material-green mb-2">綠色素材</p>
+                        <p class="text-base font-semibold material-green mb-2" data-i18n="materials.green">綠色素材</p>
                     </div>
                     <input type="number" id="current-green" value="0" min="0" 
                            class="input-field w-full text-center text-lg font-semibold" placeholder="0">
@@ -299,7 +387,7 @@
                 <div class="text-center">
                     <div class="bg-blue-50 rounded-xl p-4 mb-4 border-2 border-blue-200 hover:border-blue-300 transition-colors">
                         <span class="text-3xl block mb-2">🔵</span>
-                        <p class="text-base font-semibold material-blue mb-2">藍色素材</p>
+                        <p class="text-base font-semibold material-blue mb-2" data-i18n="materials.blue">藍色素材</p>
                     </div>
                     <input type="number" id="current-blue" value="0" min="0" 
                            class="input-field w-full text-center text-lg font-semibold" placeholder="0">
@@ -307,7 +395,7 @@
                 <div class="text-center">
                     <div class="bg-purple-50 rounded-xl p-4 mb-4 border-2 border-purple-200 hover:border-purple-300 transition-colors">
                         <span class="text-3xl block mb-2">🟣</span>
-                        <p class="text-base font-semibold material-purple mb-2">紫色素材</p>
+                        <p class="text-base font-semibold material-purple mb-2" data-i18n="materials.purple">紫色素材</p>
                     </div>
                     <input type="number" id="current-purple" value="0" min="0" 
                            class="input-field w-full text-center text-lg font-semibold" placeholder="0">
@@ -315,7 +403,7 @@
                 <div class="text-center">
                     <div class="bg-yellow-50 rounded-xl p-4 mb-4 border-2 border-yellow-200 hover:border-yellow-300 transition-colors">
                         <span class="text-3xl block mb-2">🟡</span>
-                        <p class="text-base font-semibold material-gold mb-2">金色素材</p>
+                        <p class="text-base font-semibold material-gold mb-2" data-i18n="materials.gold">金色素材</p>
                     </div>
                     <input type="number" id="current-gold" value="0" min="0" 
                            class="input-field w-full text-center text-lg font-semibold" placeholder="0">
@@ -326,16 +414,16 @@
         <!-- 第三區塊：快捷操作按鈕 -->
         <div class="card mb-8">
             <div class="flex flex-wrap gap-4 justify-center">
-                <button id="max-cultivation-btn" class="btn-primary text-lg px-8 py-4">
+                <button id="max-cultivation-btn" class="btn-primary text-lg px-8 py-4" data-i18n="buttons.maxCultivation">
                     🎓 一鍵畢業需求
                 </button>
-                <button id="reset-default-btn" class="btn-success text-lg px-8 py-4">
+                <button id="reset-default-btn" class="btn-success text-lg px-8 py-4" data-i18n="buttons.resetDefault">
                     🎯 重置預設
                 </button>
-                <button id="reset-all-btn" class="btn-secondary text-lg px-8 py-4">
+                <button id="reset-all-btn" class="btn-secondary text-lg px-8 py-4" data-i18n="buttons.resetAll">
                     🔄 重置數據
                 </button>
-                <button id="copy-report-btn" class="btn-warning text-lg px-8 py-4">
+                <button id="copy-report-btn" class="btn-warning text-lg px-8 py-4" data-i18n="buttons.copyReport">
                     📋 複製報告
                 </button>
             </div>
@@ -345,40 +433,40 @@
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
             <!-- 狀態分析 -->
             <div class="card">
-                <h2 class="text-xl card-title flex items-center mb-6">
+                <h2 class="text-xl card-title flex items-center mb-6" data-i18n="analysis.title">
                     📊 資源狀態分析
                 </h2>
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead>
                             <tr class="border-b-2 border-gray-200">
-                                <th class="text-left py-4 card-content font-semibold text-base">素材</th>
-                                <th class="text-center py-4 card-content font-semibold text-base">目標</th>
-                                <th class="text-center py-4 card-content font-semibold text-base">持有</th>
-                                <th class="text-center py-4 card-content font-semibold text-base">狀態</th>
+                                <th class="text-left py-4 card-content font-semibold text-base" data-i18n="analysis.material">素材</th>
+                                <th class="text-center py-4 card-content font-semibold text-base" data-i18n="analysis.target">目標</th>
+                                <th class="text-center py-4 card-content font-semibold text-base" data-i18n="analysis.current">持有</th>
+                                <th class="text-center py-4 card-content font-semibold text-base" data-i18n="analysis.status">狀態</th>
                             </tr>
                         </thead>
                         <tbody id="status-table">
                             <tr class="border-b border-gray-100 hover:bg-gray-50">
-                                <td class="py-4 card-content text-base">🟢 綠色</td>
+                                <td class="py-4 card-content text-base">🟢 <span data-i18n="materials.green">綠色</span></td>
                                 <td class="text-center py-4 card-content text-base" id="status-target-green">0</td>
                                 <td class="text-center py-4 card-content text-base" id="status-current-green">0</td>
                                 <td class="text-center py-4 text-base" id="status-green">-</td>
                             </tr>
                             <tr class="border-b border-gray-100 hover:bg-gray-50">
-                                <td class="py-4 card-content text-base">🔵 藍色</td>
+                                <td class="py-4 card-content text-base">🔵 <span data-i18n="materials.blue">藍色</span></td>
                                 <td class="text-center py-4 card-content text-base" id="status-target-blue">0</td>
                                 <td class="text-center py-4 card-content text-base" id="status-current-blue">0</td>
                                 <td class="text-center py-4 text-base" id="status-blue">-</td>
                             </tr>
                             <tr class="border-b border-gray-100 hover:bg-gray-50">
-                                <td class="py-4 card-content text-base">🟣 紫色</td>
+                                <td class="py-4 card-content text-base">🟣 <span data-i18n="materials.purple">紫色</span></td>
                                 <td class="text-center py-4 card-content text-base" id="status-target-purple">0</td>
                                 <td class="text-center py-4 card-content text-base" id="status-current-purple">0</td>
                                 <td class="text-center py-4 text-base" id="status-purple">-</td>
                             </tr>
                             <tr class="hover:bg-gray-50">
-                                <td class="py-4 card-content text-base">🟡 金色</td>
+                                <td class="py-4 card-content text-base">🟡 <span data-i18n="materials.gold">金色</span></td>
                                 <td class="text-center py-4 card-content text-base" id="status-target-gold">0</td>
                                 <td class="text-center py-4 card-content text-base" id="status-current-gold">0</td>
                                 <td class="text-center py-4 text-base" id="status-gold">-</td>
@@ -390,13 +478,13 @@
 
             <!-- 最佳合成策略 -->
             <div class="card">
-                <h2 class="text-xl card-title flex items-center mb-6">
+                <h2 class="text-xl card-title flex items-center mb-6" data-i18n="strategy.title">
                     🧠 最佳合成策略
-                    <span class="ml-3 px-3 py-1 bg-blue-500 text-white text-sm rounded-full animate-pulse">智慧推薦</span>
+                    <span class="ml-3 px-3 py-1 bg-blue-500 text-white text-sm rounded-full animate-pulse" data-i18n="strategy.smart">智慧推薦</span>
                 </h2>
                 <div id="strategy-display" class="space-y-3">
                     <div class="bg-gray-50 rounded-lg p-4 text-center border-2 border-dashed border-gray-300">
-                        <p class="card-content text-base">輸入持有數量後自動顯示最佳策略</p>
+                        <p class="card-content text-base" data-i18n="strategy.placeholder">輸入持有數量後自動顯示最佳策略</p>
                     </div>
                 </div>
             </div>
@@ -405,31 +493,31 @@
         <!-- Execution Result Preview -->
         <div class="mt-8">
             <div class="card">
-                <h2 class="text-2xl card-title flex items-center">
+                <h2 class="text-2xl card-title flex items-center" data-i18n="preview.title">
                     🔄 執行後預覽
                 </h2>
                 <div id="execution-preview" class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="bg-green-50 rounded-lg p-4 text-center border-2 border-green-200">
                         <div class="text-2xl mb-2">🟢</div>
-                        <div class="text-sm card-content font-medium">綠色素材</div>
+                        <div class="text-sm card-content font-medium" data-i18n="materials.green">綠色素材</div>
                         <div id="preview-green" class="text-lg font-bold material-green">-</div>
                         <div id="preview-green-status" class="text-xs card-content">-</div>
                     </div>
                     <div class="bg-blue-50 rounded-lg p-4 text-center border-2 border-blue-200">
                         <div class="text-2xl mb-2">🔵</div>
-                        <div class="text-sm card-content font-medium">藍色素材</div>
+                        <div class="text-sm card-content font-medium" data-i18n="materials.blue">藍色素材</div>
                         <div id="preview-blue" class="text-lg font-bold material-blue">-</div>
                         <div id="preview-blue-status" class="text-xs card-content">-</div>
                     </div>
                     <div class="bg-purple-50 rounded-lg p-4 text-center border-2 border-purple-200">
                         <div class="text-2xl mb-2">🟣</div>
-                        <div class="text-sm card-content font-medium">紫色素材</div>
+                        <div class="text-sm card-content font-medium" data-i18n="materials.purple">紫色素材</div>
                         <div id="preview-purple" class="text-lg font-bold material-purple">-</div>
                         <div id="preview-purple-status" class="text-xs card-content">-</div>
                     </div>
                     <div class="bg-yellow-50 rounded-lg p-4 text-center border-2 border-yellow-200">
                         <div class="text-2xl mb-2">🟡</div>
-                        <div class="text-sm card-content font-medium">金色素材</div>
+                        <div class="text-sm card-content font-medium" data-i18n="materials.gold">金色素材</div>
                         <div id="preview-gold" class="text-lg font-bold material-gold">-</div>
                         <div id="preview-gold-status" class="text-xs card-content">-</div>
                     </div>
@@ -440,7 +528,7 @@
         <!-- Report Section -->
         <div class="mt-8">
             <div class="report-section">
-                <h2 class="text-2xl card-title flex items-center">
+                <h2 class="text-2xl card-title flex items-center" data-i18n="report.title">
                     📋 智慧素材需求分析報告
                 </h2>
                 <div id="report-content" class="bg-gray-50 rounded-lg p-4 font-mono text-sm whitespace-pre-wrap border-2 border-gray-200" style="color: #2c3e50;">
@@ -453,7 +541,7 @@
         <div class="mt-6">
             <div class="bg-gray-100 rounded-lg p-4 border border-gray-300">
                 <details class="cursor-pointer">
-                    <summary class="text-sm text-gray-600 font-medium hover:text-gray-800 transition-colors">
+                    <summary class="text-sm text-gray-600 font-medium hover:text-gray-800 transition-colors" data-i18n="calculation.details">
                         🔍 計算過程詳情 (點擊展開)
                     </summary>
                     <div class="mt-4 pt-4 border-t border-gray-300">
@@ -467,47 +555,55 @@
 
         <!-- Instructions -->
         <div class="mt-8 card">
-            <h3 class="text-lg card-title mb-3">📖 使用說明</h3>
+            <h3 class="text-lg card-title mb-3" data-i18n="instructions.title">📖 使用說明</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div>
-                    <h4 class="font-semibold card-title mb-2 text-base">🎯 設定目標</h4>
+                    <h4 class="font-semibold card-title mb-2 text-base" data-i18n="instructions.setTarget">🎯 設定目標</h4>
                     <ul class="space-y-1 card-content">
-                        <li>• 調整角色技能等級（1-10級）</li>
-                        <li>• 設定武器突破等級（1-90級）</li>
-                        <li>• 系統自動計算所需素材</li>
+                        <li data-i18n="instructions.adjustSkills">• 調整角色技能等級（1-10級）</li>
+                        <li data-i18n="instructions.setWeapon">• 設定武器突破等級（1-90級）</li>
+                        <li data-i18n="instructions.autoCalculate">• 系統自動計算所需素材</li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold card-title mb-2 text-base">📦 輸入持有量</h4>
+                    <h4 class="font-semibold card-title mb-2 text-base" data-i18n="instructions.inputHoldings">📦 輸入持有量</h4>
                     <ul class="space-y-1 card-content">
-                        <li>• 輸入各色素材當前持有數量</li>
-                        <li>• 支援四級素材系統</li>
-                        <li>• 綠→藍→紫→金 合成路徑</li>
+                        <li data-i18n="instructions.inputMaterials">• 輸入各色素材當前持有數量</li>
+                        <li data-i18n="instructions.fourTierSystem">• 支援四級素材系統</li>
+                        <li data-i18n="instructions.synthesisPath">• 綠→藍→紫→金 合成路徑</li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold card-title mb-2 text-base">🧠 智慧計算</h4>
+                    <h4 class="font-semibold card-title mb-2 text-base" data-i18n="instructions.smartCalculation">🧠 智慧計算</h4>
                     <ul class="space-y-1 card-content">
-                        <li>• 輸入素材後自動計算最佳策略</li>
-                        <li>• 保證綠色素材不被過度消耗</li>
-                        <li>• 最大化資源利用效率</li>
+                        <li data-i18n="instructions.autoStrategy">• 輸入素材後自動計算最佳策略</li>
+                        <li data-i18n="instructions.preserveGreen">• 保證綠色素材不被過度消耗</li>
+                        <li data-i18n="instructions.maxEfficiency">• 最大化資源利用效率</li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold card-title mb-2 text-base">📋 報告功能</h4>
+                    <h4 class="font-semibold card-title mb-2 text-base" data-i18n="instructions.reportFeature">📋 報告功能</h4>
                     <ul class="space-y-1 card-content">
-                        <li>• 詳細的合成策略說明</li>
-                        <li>• 執行前後數量對比</li>
-                        <li>• 一鍵複製完整報告</li>
+                        <li data-i18n="instructions.detailedStrategy">• 詳細的合成策略說明</li>
+                        <li data-i18n="instructions.beforeAfter">• 執行前後數量對比</li>
+                        <li data-i18n="instructions.oneClickCopy">• 一鍵複製完整報告</li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold card-title mb-2 text-base">⚡ 刷取方式說明</h4>
+                    <h4 class="font-semibold card-title mb-2 text-base" data-i18n="instructions.farmingMethods">⚡ 刷取方式說明</h4>
                     <ul class="space-y-1 card-content">
-                        <li>• 常規(40體/場): 標準凝素領域</li>
-                        <li>• 安全(40體/場): 含緩衝的保險場次</li>
-                        <li>• 活動雙倍(40體/場): 雙倍掉落期間</li>
-                        <li>• 減負途徑(80體/場): 2倍素材掉落</li>
+                        <li data-i18n="instructions.normal">• 常規(40體/場): 標準凝素領域</li>
+                        <li data-i18n="instructions.safe">• 安全(40體/場): 含緩衝的保險場次</li>
+                        <li data-i18n="instructions.doubleEvent">• 活動雙倍(40體/場): 雙倍掉落期間</li>
+                        <li data-i18n="instructions.reduced">• 減負途徑(80體/場): 2倍素材掉落</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold card-title mb-2 text-base" data-i18n="instructions.recordFeature">💾 記錄功能</h4>
+                    <ul class="space-y-1 card-content">
+                        <li data-i18n="instructions.saveSettings">• 保存當前角色和武器設定</li>
+                        <li data-i18n="instructions.quickLoad">• 快速載入之前的配置</li>
+                        <li data-i18n="instructions.manageRecords">• 管理和刪除不需要的記錄</li>
                     </ul>
                 </div>
             </div>
@@ -515,6 +611,225 @@
     </div>
 
     <script>
+        // Internationalization data
+        const i18nData = {
+            zh: {
+                title: "🎮 Sid的鳴潮智慧素材需求計算器",
+                subtitle: "逆向演算法優化 • 智慧合成策略 • 零浪費資源配置",
+                records: {
+                    title: "📋 使用記錄",
+                    save: "💾 保存當前設定",
+                    clearAll: "🗑️ 清空記錄",
+                    empty: "目前沒有保存的記錄",
+                    savePrompt: "請為這個配置輸入名稱：",
+                    defaultName: "角色配置",
+                    confirmClear: "確定要清空所有記錄嗎？",
+                    deleteRecord: "刪除這個記錄？"
+                },
+                skills: {
+                    title: "⚔️ 角色技能等級",
+                    level6: "6等",
+                    level8: "8等",
+                    level10: "10等",
+                    normal: "常態攻擊",
+                    resonance: "共鳴技能",
+                    liberation: "共鳴解放",
+                    variation: "變奏技能",
+                    circuit: "共鳴迴路"
+                },
+                weapon: {
+                    title: "🗡️ 武器突破等級",
+                    level: "武器等級"
+                },
+                target: {
+                    title: "🎯 目標需求總計"
+                },
+                materials: {
+                    green: "綠色素材",
+                    blue: "藍色素材",
+                    purple: "紫色素材",
+                    gold: "金色素材"
+                },
+                current: {
+                    title: "📦 當前持有數量"
+                },
+                buttons: {
+                    maxCultivation: "🎓 一鍵畢業需求",
+                    resetDefault: "🎯 重置預設",
+                    resetAll: "🔄 重置數據",
+                    copyReport: "📋 複製報告"
+                },
+                analysis: {
+                    title: "📊 資源狀態分析",
+                    material: "素材",
+                    target: "目標",
+                    current: "持有",
+                    status: "狀態"
+                },
+                strategy: {
+                    title: "🧠 最佳合成策略",
+                    smart: "智慧推薦",
+                    placeholder: "輸入持有數量後自動顯示最佳策略",
+                    noSynthesis: "🎉 無需合成，當前資源已經最優配置！"
+                },
+                preview: {
+                    title: "🔄 執行後預覽"
+                },
+                report: {
+                    title: "📋 智慧素材需求分析報告",
+                    placeholder: "輸入持有數量後自動生成詳細報告..."
+                },
+                calculation: {
+                    details: "🔍 計算過程詳情 (點擊展開)",
+                    placeholder: "點擊上方按鈕或輸入數據後顯示詳細計算過程..."
+                },
+                instructions: {
+                    title: "📖 使用說明",
+                    setTarget: "🎯 設定目標",
+                    adjustSkills: "• 調整角色技能等級（1-10級）",
+                    setWeapon: "• 設定武器突破等級（1-90級）",
+                    autoCalculate: "• 系統自動計算所需素材",
+                    inputHoldings: "📦 輸入持有量",
+                    inputMaterials: "• 輸入各色素材當前持有數量",
+                    fourTierSystem: "• 支援四級素材系統",
+                    synthesisPath: "• 綠→藍→紫→金 合成路徑",
+                    smartCalculation: "🧠 智慧計算",
+                    autoStrategy: "• 輸入素材後自動計算最佳策略",
+                    preserveGreen: "• 保證綠色素材不被過度消耗",
+                    maxEfficiency: "• 最大化資源利用效率",
+                    reportFeature: "📋 報告功能",
+                    detailedStrategy: "• 詳細的合成策略說明",
+                    beforeAfter: "• 執行前後數量對比",
+                    oneClickCopy: "• 一鍵複製完整報告",
+                    farmingMethods: "⚡ 刷取方式說明",
+                    normal: "• 常規(40體/場): 標準凝素領域",
+                    safe: "• 安全(40體/場): 含緩衝的保險場次",
+                    doubleEvent: "• 活動雙倍(40體/場): 雙倍掉落期間",
+                    reduced: "• 減負途徑(80體/場): 2倍素材掉落",
+                    recordFeature: "💾 記錄功能",
+                    saveSettings: "• 保存當前角色和武器設定",
+                    quickLoad: "• 快速載入之前的配置",
+                    manageRecords: "• 管理和刪除不需要的記錄"
+                },
+                messages: {
+                    recordSaved: "✅ 配置已保存！",
+                    recordLoaded: "✅ 配置已載入！",
+                    recordDeleted: "✅ 記錄已刪除！",
+                    recordsCleared: "✅ 所有記錄已清空！",
+                    reportCopied: "✅ 已複製！"
+                }
+            },
+            en: {
+                title: "🎮 Sid's Wuthering Waves Smart Material Calculator",
+                subtitle: "Reverse Algorithm Optimization • Smart Synthesis Strategy • Zero Waste Resource Allocation",
+                records: {
+                    title: "📋 User Records",
+                    save: "💾 Save Current Settings",
+                    clearAll: "🗑️ Clear All",
+                    empty: "No saved records currently",
+                    savePrompt: "Please enter a name for this configuration:",
+                    defaultName: "Character Config",
+                    confirmClear: "Are you sure you want to clear all records?",
+                    deleteRecord: "Delete this record?"
+                },
+                skills: {
+                    title: "⚔️ Character Skill Levels",
+                    level6: "Lv.6",
+                    level8: "Lv.8",
+                    level10: "Lv.10",
+                    normal: "Normal Attack",
+                    resonance: "Resonance Skill",
+                    liberation: "Resonance Liberation",
+                    variation: "Variation Skill",
+                    circuit: "Resonance Circuit"
+                },
+                weapon: {
+                    title: "🗡️ Weapon Breakthrough Level",
+                    level: "Weapon Level"
+                },
+                target: {
+                    title: "🎯 Target Requirements Total"
+                },
+                materials: {
+                    green: "Green Materials",
+                    blue: "Blue Materials",
+                    purple: "Purple Materials",
+                    gold: "Gold Materials"
+                },
+                current: {
+                    title: "📦 Current Holdings"
+                },
+                buttons: {
+                    maxCultivation: "🎓 Max Cultivation",
+                    resetDefault: "🎯 Reset Default",
+                    resetAll: "🔄 Reset All Data",
+                    copyReport: "📋 Copy Report"
+                },
+                analysis: {
+                    title: "📊 Resource Status Analysis",
+                    material: "Material",
+                    target: "Target",
+                    current: "Current",
+                    status: "Status"
+                },
+                strategy: {
+                    title: "🧠 Optimal Synthesis Strategy",
+                    smart: "Smart Recommendation",
+                    placeholder: "Enter current holdings to display optimal strategy",
+                    noSynthesis: "🎉 No synthesis needed, current resources are optimally configured!"
+                },
+                preview: {
+                    title: "🔄 Post-Execution Preview"
+                },
+                report: {
+                    title: "📋 Smart Material Requirement Analysis Report",
+                    placeholder: "Enter current holdings to auto-generate detailed report..."
+                },
+                calculation: {
+                    details: "🔍 Calculation Details (Click to expand)",
+                    placeholder: "Click buttons above or enter data to show detailed calculation process..."
+                },
+                instructions: {
+                    title: "📖 Instructions",
+                    setTarget: "🎯 Set Target",
+                    adjustSkills: "• Adjust character skill levels (1-10)",
+                    setWeapon: "• Set weapon breakthrough level (1-90)",
+                    autoCalculate: "• System auto-calculates required materials",
+                    inputHoldings: "📦 Input Holdings",
+                    inputMaterials: "• Enter current holdings for each material type",
+                    fourTierSystem: "• Supports four-tier material system",
+                    synthesisPath: "• Green→Blue→Purple→Gold synthesis path",
+                    smartCalculation: "🧠 Smart Calculation",
+                    autoStrategy: "• Auto-calculates optimal strategy after input",
+                    preserveGreen: "• Ensures green materials aren't over-consumed",
+                    maxEfficiency: "• Maximizes resource utilization efficiency",
+                    reportFeature: "📋 Report Feature",
+                    detailedStrategy: "• Detailed synthesis strategy explanation",
+                    beforeAfter: "• Before/after quantity comparison",
+                    oneClickCopy: "• One-click copy complete report",
+                    farmingMethods: "⚡ Farming Methods",
+                    normal: "• Normal (40 stamina/run): Standard Tacet Field",
+                    safe: "• Safe (40 stamina/run): With buffer insurance runs",
+                    doubleEvent: "• Event Double (40 stamina/run): Double drop period",
+                    reduced: "• Reduced Load (80 stamina/run): 2x material drops",
+                    recordFeature: "💾 Record Feature",
+                    saveSettings: "• Save current character and weapon settings",
+                    quickLoad: "• Quickly load previous configurations",
+                    manageRecords: "• Manage and delete unwanted records"
+                },
+                messages: {
+                    recordSaved: "✅ Configuration saved!",
+                    recordLoaded: "✅ Configuration loaded!",
+                    recordDeleted: "✅ Record deleted!",
+                    recordsCleared: "✅ All records cleared!",
+                    reportCopied: "✅ Copied!"
+                }
+            }
+        };
+
+        // Current language
+        let currentLanguage = 'zh';
+
         // Skill upgrade requirements (level 1->2, 2->3, etc.)
         const skillRequirements = {
             1: {green: 2, blue: 0, purple: 0, gold: 0},
@@ -558,6 +873,215 @@
             purple: 1.59,   // 平均每場紫色掉落
             gold: 0.25      // 平均每場金色掉落
         };
+
+        // User records storage
+        let userRecords = JSON.parse(localStorage.getItem('wuthering-waves-records') || '[]');
+
+        // Language functions
+        function updateLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('wuthering-waves-language', lang);
+            
+            // Update document language
+            document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+            
+            // Update language button states
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update all text elements with i18n data
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.dataset.i18n;
+                const value = getNestedValue(i18nData[lang], key);
+                if (value) {
+                    element.textContent = value;
+                }
+            });
+
+            // Update weapon level display
+            updateWeaponLevelDisplay();
+
+            // Update placeholder texts
+            updatePlaceholders();
+
+            // Re-render records with new language
+            renderRecords();
+
+            // Re-perform calculation to update report in new language
+            performCalculation();
+        }
+
+        function getNestedValue(obj, path) {
+            return path.split('.').reduce((current, key) => current && current[key], obj);
+        }
+
+        function updateWeaponLevelDisplay() {
+            const weaponSlider = document.getElementById('weapon');
+            const sliderValue = parseInt(weaponSlider.value);
+            const weaponLevel = weaponLevels[sliderValue];
+            const suffix = currentLanguage === 'zh' ? '級' : '';
+            document.getElementById('weapon-value').textContent = weaponLevel + suffix;
+        }
+
+        function updatePlaceholders() {
+            const strategyPlaceholder = getNestedValue(i18nData[currentLanguage], 'strategy.placeholder');
+            const reportPlaceholder = getNestedValue(i18nData[currentLanguage], 'report.placeholder');
+            const calcPlaceholder = getNestedValue(i18nData[currentLanguage], 'calculation.placeholder');
+
+            if (document.getElementById('strategy-display').querySelector('.bg-gray-50')) {
+                document.getElementById('strategy-display').innerHTML = 
+                    `<div class="bg-gray-50 rounded-lg p-4 text-center border-2 border-dashed border-gray-300">
+                        <p class="card-content text-base">${strategyPlaceholder}</p>
+                    </div>`;
+            }
+
+            if (document.getElementById('report-content').textContent.includes('輸入持有數量後') || 
+                document.getElementById('report-content').textContent.includes('Enter current holdings')) {
+                document.getElementById('report-content').textContent = reportPlaceholder;
+            }
+
+            if (document.getElementById('calculation-process').textContent.includes('點擊上方按鈕') || 
+                document.getElementById('calculation-process').textContent.includes('Click buttons above')) {
+                document.getElementById('calculation-process').textContent = calcPlaceholder;
+            }
+        }
+
+        // Record management functions
+        function saveCurrentRecord() {
+            const name = prompt(getNestedValue(i18nData[currentLanguage], 'records.savePrompt'), 
+                               getNestedValue(i18nData[currentLanguage], 'records.defaultName'));
+            if (!name) return;
+
+            const record = {
+                id: Date.now(),
+                name: name,
+                timestamp: new Date().toLocaleString(currentLanguage === 'zh' ? 'zh-TW' : 'en-US'),
+                skills: {
+                    skill1: parseInt(document.getElementById('skill1').value),
+                    skill2: parseInt(document.getElementById('skill2').value),
+                    skill3: parseInt(document.getElementById('skill3').value),
+                    skill4: parseInt(document.getElementById('skill4').value),
+                    skill5: parseInt(document.getElementById('skill5').value)
+                },
+                weapon: parseInt(document.getElementById('weapon').value),
+                materials: {
+                    green: parseInt(document.getElementById('current-green').value) || 0,
+                    blue: parseInt(document.getElementById('current-blue').value) || 0,
+                    purple: parseInt(document.getElementById('current-purple').value) || 0,
+                    gold: parseInt(document.getElementById('current-gold').value) || 0
+                }
+            };
+
+            userRecords.unshift(record);
+            // Keep only the latest 10 records
+            if (userRecords.length > 10) {
+                userRecords = userRecords.slice(0, 10);
+            }
+            
+            localStorage.setItem('wuthering-waves-records', JSON.stringify(userRecords));
+            renderRecords();
+            
+            showMessage(getNestedValue(i18nData[currentLanguage], 'messages.recordSaved'));
+        }
+
+        function loadRecord(recordId) {
+            const record = userRecords.find(r => r.id === recordId);
+            if (!record) return;
+
+            // Load skills
+            ['skill1', 'skill2', 'skill3', 'skill4', 'skill5'].forEach(skillId => {
+                const value = record.skills[skillId];
+                document.getElementById(skillId).value = value;
+                document.getElementById(skillId + '-value').textContent = value;
+            });
+
+            // Load weapon
+            document.getElementById('weapon').value = record.weapon;
+            updateWeaponLevelDisplay();
+            window.currentWeaponLevel = weaponLevels[record.weapon];
+
+            // Load materials
+            ['green', 'blue', 'purple', 'gold'].forEach(color => {
+                document.getElementById('current-' + color).value = record.materials[color];
+            });
+
+            // Recalculate
+            calculateRequirements();
+            performCalculation();
+            
+            showMessage(getNestedValue(i18nData[currentLanguage], 'messages.recordLoaded'));
+        }
+
+        function deleteRecord(recordId) {
+            if (!confirm(getNestedValue(i18nData[currentLanguage], 'records.deleteRecord'))) return;
+            
+            userRecords = userRecords.filter(r => r.id !== recordId);
+            localStorage.setItem('wuthering-waves-records', JSON.stringify(userRecords));
+            renderRecords();
+            
+            showMessage(getNestedValue(i18nData[currentLanguage], 'messages.recordDeleted'));
+        }
+
+        function clearAllRecords() {
+            if (!confirm(getNestedValue(i18nData[currentLanguage], 'records.confirmClear'))) return;
+            
+            userRecords = [];
+            localStorage.setItem('wuthering-waves-records', JSON.stringify(userRecords));
+            renderRecords();
+            
+            showMessage(getNestedValue(i18nData[currentLanguage], 'messages.recordsCleared'));
+        }
+
+        function renderRecords() {
+            const recordsList = document.getElementById('records-list');
+            
+            if (userRecords.length === 0) {
+                recordsList.innerHTML = `<p class="text-gray-500 text-center">${getNestedValue(i18nData[currentLanguage], 'records.empty')}</p>`;
+                return;
+            }
+
+            recordsList.innerHTML = userRecords.map(record => {
+                const skillLevels = [record.skills.skill1, record.skills.skill2, record.skills.skill3, record.skills.skill4, record.skills.skill5];
+                const weaponLevel = weaponLevels[record.weapon];
+                const suffix = currentLanguage === 'zh' ? '級' : '';
+                
+                return `
+                    <div class="record-item" onclick="loadRecord(${record.id})">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="font-semibold text-blue-700">${record.name}</div>
+                                <div class="text-sm text-gray-600">
+                                    ${currentLanguage === 'zh' ? '技能' : 'Skills'}: [${skillLevels.join(', ')}] | 
+                                    ${currentLanguage === 'zh' ? '武器' : 'Weapon'}: ${weaponLevel}${suffix} | 
+                                    ${currentLanguage === 'zh' ? '素材' : 'Materials'}: 🟢${record.materials.green} 🔵${record.materials.blue} 🟣${record.materials.purple} 🟡${record.materials.gold}
+                                </div>
+                                <div class="text-xs text-gray-500">${record.timestamp}</div>
+                            </div>
+                            <button class="record-delete text-red-500 hover:text-red-700 ml-4 p-1" 
+                                    onclick="event.stopPropagation(); deleteRecord(${record.id})">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showMessage(message) {
+            // Create temporary message display
+            const messageEl = document.createElement('div');
+            messageEl.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+            messageEl.textContent = message;
+            document.body.appendChild(messageEl);
+            
+            setTimeout(() => {
+                messageEl.remove();
+            }, 2000);
+        }
 
         // Verification function for AI self-check
         function verifyRuns(n, requiredGold) {
@@ -717,7 +1241,8 @@
             weaponSlider.addEventListener('input', function() {
                 const sliderValue = parseInt(this.value);
                 const weaponLevel = weaponLevels[sliderValue];
-                weaponValueDisplay.textContent = weaponLevel + '級';
+                const suffix = currentLanguage === 'zh' ? '級' : '';
+                weaponValueDisplay.textContent = weaponLevel + suffix;
                 window.currentWeaponLevel = weaponLevel;
                 calculateRequirements();
             });
@@ -733,23 +1258,6 @@
                 setAllSkillLevels(10);
             });
 
-            // Initialize weapon level buttons
-            const weaponButtons = document.querySelectorAll('.weapon-level-btn');
-            weaponButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const level = parseInt(this.dataset.level);
-                    setWeaponLevel(level);
-                    
-                    // Update button states
-                    weaponButtons.forEach(btn => {
-                        btn.classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
-                        btn.classList.add('bg-gray-100', 'border-gray-300');
-                    });
-                    this.classList.remove('bg-gray-100', 'border-gray-300');
-                    this.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
-                });
-            });
-
             // Initialize current holdings inputs with auto-calculation
             const inputs = ['current-green', 'current-blue', 'current-purple', 'current-gold'];
             inputs.forEach(id => {
@@ -762,6 +1270,18 @@
                     }, 500);
                 });
             });
+
+            // Initialize language buttons
+            document.getElementById('lang-zh').addEventListener('click', function() {
+                updateLanguage('zh');
+            });
+            document.getElementById('lang-en').addEventListener('click', function() {
+                updateLanguage('en');
+            });
+
+            // Initialize record buttons
+            document.getElementById('save-record-btn').addEventListener('click', saveCurrentRecord);
+            document.getElementById('clear-records-btn').addEventListener('click', clearAllRecords);
         }
 
         // Set all skill levels to a specific value
@@ -778,7 +1298,7 @@
             const sliderIndex = weaponLevels.indexOf(level);
             if (sliderIndex !== -1) {
                 document.getElementById('weapon').value = sliderIndex;
-                document.getElementById('weapon-value').textContent = level + '級';
+                updateWeaponLevelDisplay();
                 window.currentWeaponLevel = level;
                 calculateRequirements();
             }
@@ -902,7 +1422,10 @@
             // Green -> Blue synthesis
             const greenToBlueSynthesis = Math.min(Math.floor(availableGreen / 3), blueDeficit);
             if (greenToBlueSynthesis > 0) {
-                strategy.push(`綠→藍合成: ${greenToBlueSynthesis} 次 (消耗 ${greenToBlueSynthesis * 3} 綠色 → 獲得 ${greenToBlueSynthesis} 藍色)`);
+                const synthText = currentLanguage === 'zh' ? 
+                    `綠→藍合成: ${greenToBlueSynthesis} 次 (消耗 ${greenToBlueSynthesis * 3} 綠色 → 獲得 ${greenToBlueSynthesis} 藍色)` :
+                    `Green→Blue Synthesis: ${greenToBlueSynthesis} times (Consume ${greenToBlueSynthesis * 3} Green → Get ${greenToBlueSynthesis} Blue)`;
+                strategy.push(synthText);
                 finalAmounts.green -= greenToBlueSynthesis * 3;
                 finalAmounts.blue += greenToBlueSynthesis;
             }
@@ -911,7 +1434,10 @@
             const availableBlue = finalAmounts.blue - targets.blue;
             const blueToPurpleSynthesis = Math.min(Math.floor(Math.max(0, availableBlue) / 3), purpleDeficit);
             if (blueToPurpleSynthesis > 0) {
-                strategy.push(`藍→紫合成: ${blueToPurpleSynthesis} 次 (消耗 ${blueToPurpleSynthesis * 3} 藍色 → 獲得 ${blueToPurpleSynthesis} 紫色)`);
+                const synthText = currentLanguage === 'zh' ? 
+                    `藍→紫合成: ${blueToPurpleSynthesis} 次 (消耗 ${blueToPurpleSynthesis * 3} 藍色 → 獲得 ${blueToPurpleSynthesis} 紫色)` :
+                    `Blue→Purple Synthesis: ${blueToPurpleSynthesis} times (Consume ${blueToPurpleSynthesis * 3} Blue → Get ${blueToPurpleSynthesis} Purple)`;
+                strategy.push(synthText);
                 finalAmounts.blue -= blueToPurpleSynthesis * 3;
                 finalAmounts.purple += blueToPurpleSynthesis;
             }
@@ -920,7 +1446,10 @@
             const availablePurple = finalAmounts.purple - targets.purple;
             const purpleToGoldSynthesis = Math.min(Math.floor(Math.max(0, availablePurple) / 3), goldDeficit);
             if (purpleToGoldSynthesis > 0) {
-                strategy.push(`紫→金合成: ${purpleToGoldSynthesis} 次 (消耗 ${purpleToGoldSynthesis * 3} 紫色 → 獲得 ${purpleToGoldSynthesis} 金色)`);
+                const synthText = currentLanguage === 'zh' ? 
+                    `紫→金合成: ${purpleToGoldSynthesis} 次 (消耗 ${purpleToGoldSynthesis * 3} 紫色 → 獲得 ${purpleToGoldSynthesis} 金色)` :
+                    `Purple→Gold Synthesis: ${purpleToGoldSynthesis} times (Consume ${purpleToGoldSynthesis * 3} Purple → Get ${purpleToGoldSynthesis} Gold)`;
+                strategy.push(synthText);
                 finalAmounts.purple -= purpleToGoldSynthesis * 3;
                 finalAmounts.gold += purpleToGoldSynthesis;
             }
@@ -931,111 +1460,183 @@
         // Generate calculation process details
         function generateCalculationProcess(calculation) {
             const {strategy, finalAmounts, targets, current} = calculation;
-            const now = new Date().toLocaleString('zh-TW');
+            const now = new Date().toLocaleString(currentLanguage === 'zh' ? 'zh-TW' : 'en-US');
 
-            let process = `🔍 計算過程詳情\n`;
-            process += `計算時間: ${now}\n\n`;
+            let process = currentLanguage === 'zh' ? 
+                `🔍 計算過程詳情\n計算時間: ${now}\n\n` :
+                `🔍 Calculation Process Details\nCalculation Time: ${now}\n\n`;
 
             // 1. 初始狀態
-            process += `📊 初始狀態:\n`;
-            process += `目標需求: 綠${targets.green} 藍${targets.blue} 紫${targets.purple} 金${targets.gold}\n`;
-            process += `當前持有: 綠${current.green} 藍${current.blue} 紫${current.purple} 金${current.gold}\n\n`;
+            if (currentLanguage === 'zh') {
+                process += `📊 初始狀態:\n`;
+                process += `目標需求: 綠${targets.green} 藍${targets.blue} 紫${targets.purple} 金${targets.gold}\n`;
+                process += `當前持有: 綠${current.green} 藍${current.blue} 紫${current.purple} 金${current.gold}\n\n`;
+            } else {
+                process += `📊 Initial State:\n`;
+                process += `Target Requirements: Green${targets.green} Blue${targets.blue} Purple${targets.purple} Gold${targets.gold}\n`;
+                process += `Current Holdings: Green${current.green} Blue${current.blue} Purple${current.purple} Gold${current.gold}\n\n`;
+            }
 
             // 2. 逆向演算法計算過程
-            process += `🧮 逆向演算法計算:\n`;
-            
-            // Step 1: Gold calculation
             const goldDeficit = Math.max(0, targets.gold - current.gold);
-            process += `步驟1 - 金色素材分析:\n`;
-            process += `  金色缺口 = max(0, ${targets.gold} - ${current.gold}) = ${goldDeficit}\n`;
+            if (currentLanguage === 'zh') {
+                process += `🧮 逆向演算法計算:\n`;
+                process += `步驟1 - 金色素材分析:\n`;
+                process += `  金色缺口 = max(0, ${targets.gold} - ${current.gold}) = ${goldDeficit}\n`;
+            } else {
+                process += `🧮 Reverse Algorithm Calculation:\n`;
+                process += `Step 1 - Gold Material Analysis:\n`;
+                process += `  Gold Deficit = max(0, ${targets.gold} - ${current.gold}) = ${goldDeficit}\n`;
+            }
             
             if (goldDeficit > 0) {
                 const purpleNeededForGold = goldDeficit * 3;
-                process += `  合成金色需要紫色 = ${goldDeficit} × 3 = ${purpleNeededForGold}\n`;
+                if (currentLanguage === 'zh') {
+                    process += `  合成金色需要紫色 = ${goldDeficit} × 3 = ${purpleNeededForGold}\n`;
+                } else {
+                    process += `  Purple needed for Gold synthesis = ${goldDeficit} × 3 = ${purpleNeededForGold}\n`;
+                }
                 
                 // Step 2: Purple calculation
                 const totalPurpleNeeded = targets.purple + purpleNeededForGold;
                 const purpleDeficit = Math.max(0, totalPurpleNeeded - current.purple);
-                process += `步驟2 - 紫色素材分析:\n`;
-                process += `  紫色總需求 = ${targets.purple} + ${purpleNeededForGold} = ${totalPurpleNeeded}\n`;
-                process += `  紫色缺口 = max(0, ${totalPurpleNeeded} - ${current.purple}) = ${purpleDeficit}\n`;
+                if (currentLanguage === 'zh') {
+                    process += `步驟2 - 紫色素材分析:\n`;
+                    process += `  紫色總需求 = ${targets.purple} + ${purpleNeededForGold} = ${totalPurpleNeeded}\n`;
+                    process += `  紫色缺口 = max(0, ${totalPurpleNeeded} - ${current.purple}) = ${purpleDeficit}\n`;
+                } else {
+                    process += `Step 2 - Purple Material Analysis:\n`;
+                    process += `  Total Purple needed = ${targets.purple} + ${purpleNeededForGold} = ${totalPurpleNeeded}\n`;
+                    process += `  Purple deficit = max(0, ${totalPurpleNeeded} - ${current.purple}) = ${purpleDeficit}\n`;
+                }
                 
                 if (purpleDeficit > 0) {
                     const blueNeededForPurple = purpleDeficit * 3;
-                    process += `  合成紫色需要藍色 = ${purpleDeficit} × 3 = ${blueNeededForPurple}\n`;
+                    if (currentLanguage === 'zh') {
+                        process += `  合成紫色需要藍色 = ${purpleDeficit} × 3 = ${blueNeededForPurple}\n`;
+                    } else {
+                        process += `  Blue needed for Purple synthesis = ${purpleDeficit} × 3 = ${blueNeededForPurple}\n`;
+                    }
                     
                     // Step 3: Blue calculation
                     const totalBlueNeeded = targets.blue + blueNeededForPurple;
                     const blueDeficit = Math.max(0, totalBlueNeeded - current.blue);
-                    process += `步驟3 - 藍色素材分析:\n`;
-                    process += `  藍色總需求 = ${targets.blue} + ${blueNeededForPurple} = ${totalBlueNeeded}\n`;
-                    process += `  藍色缺口 = max(0, ${totalBlueNeeded} - ${current.blue}) = ${blueDeficit}\n`;
+                    if (currentLanguage === 'zh') {
+                        process += `步驟3 - 藍色素材分析:\n`;
+                        process += `  藍色總需求 = ${targets.blue} + ${blueNeededForPurple} = ${totalBlueNeeded}\n`;
+                        process += `  藍色缺口 = max(0, ${totalBlueNeeded} - ${current.blue}) = ${blueDeficit}\n`;
+                    } else {
+                        process += `Step 3 - Blue Material Analysis:\n`;
+                        process += `  Total Blue needed = ${targets.blue} + ${blueNeededForPurple} = ${totalBlueNeeded}\n`;
+                        process += `  Blue deficit = max(0, ${totalBlueNeeded} - ${current.blue}) = ${blueDeficit}\n`;
+                    }
                     
                     if (blueDeficit > 0) {
                         const greenNeededForBlue = blueDeficit * 3;
                         const availableGreen = Math.max(0, current.green - targets.green);
-                        process += `步驟4 - 綠色素材分析:\n`;
-                        process += `  合成藍色需要綠色 = ${blueDeficit} × 3 = ${greenNeededForBlue}\n`;
-                        process += `  可用綠色 = max(0, ${current.green} - ${targets.green}) = ${availableGreen}\n`;
-                        process += `  綠色合成能力 = min(${Math.floor(availableGreen / 3)}, ${blueDeficit}) = ${Math.min(Math.floor(availableGreen / 3), blueDeficit)}\n`;
+                        if (currentLanguage === 'zh') {
+                            process += `步驟4 - 綠色素材分析:\n`;
+                            process += `  合成藍色需要綠色 = ${blueDeficit} × 3 = ${greenNeededForBlue}\n`;
+                            process += `  可用綠色 = max(0, ${current.green} - ${targets.green}) = ${availableGreen}\n`;
+                            process += `  綠色合成能力 = min(${Math.floor(availableGreen / 3)}, ${blueDeficit}) = ${Math.min(Math.floor(availableGreen / 3), blueDeficit)}\n`;
+                        } else {
+                            process += `Step 4 - Green Material Analysis:\n`;
+                            process += `  Green needed for Blue synthesis = ${blueDeficit} × 3 = ${greenNeededForBlue}\n`;
+                            process += `  Available Green = max(0, ${current.green} - ${targets.green}) = ${availableGreen}\n`;
+                            process += `  Green synthesis capacity = min(${Math.floor(availableGreen / 3)}, ${blueDeficit}) = ${Math.min(Math.floor(availableGreen / 3), blueDeficit)}\n`;
+                        }
                     }
                 }
             } else {
-                process += `  無需金色素材，跳過後續計算\n`;
+                if (currentLanguage === 'zh') {
+                    process += `  無需金色素材，跳過後續計算\n`;
+                } else {
+                    process += `  No gold materials needed, skip subsequent calculations\n`;
+                }
             }
 
             process += `\n`;
 
             // 3. 合成執行過程
             if (strategy.length > 0) {
-                process += `⚙️ 合成執行過程:\n`;
+                if (currentLanguage === 'zh') {
+                    process += `⚙️ 合成執行過程:\n`;
+                } else {
+                    process += `⚙️ Synthesis Execution Process:\n`;
+                }
                 let tempAmounts = {...current};
                 
                 strategy.forEach((step, index) => {
-                    process += `執行步驟 ${index + 1}: ${step}\n`;
+                    if (currentLanguage === 'zh') {
+                        process += `執行步驟 ${index + 1}: ${step}\n`;
+                    } else {
+                        process += `Execution Step ${index + 1}: ${step}\n`;
+                    }
                     
-                    if (step.includes('綠→藍')) {
-                        const matches = step.match(/(\d+) 次.*?(\d+) 綠色.*?(\d+) 藍色/);
-                        if (matches) {
-                            const times = parseInt(matches[1]);
-                            const greenUsed = parseInt(matches[2]);
-                            const blueGained = parseInt(matches[3]);
+                    if (step.includes('綠→藍') || step.includes('Green→Blue')) {
+                        const matches = step.match(/(\d+)/g);
+                        if (matches && matches.length >= 3) {
+                            const times = parseInt(matches[0]);
+                            const greenUsed = parseInt(matches[1]);
+                            const blueGained = parseInt(matches[2]);
                             tempAmounts.green -= greenUsed;
                             tempAmounts.blue += blueGained;
-                            process += `  執行後: 綠${tempAmounts.green} 藍${tempAmounts.blue}\n`;
+                            if (currentLanguage === 'zh') {
+                                process += `  執行後: 綠${tempAmounts.green} 藍${tempAmounts.blue}\n`;
+                            } else {
+                                process += `  After execution: Green${tempAmounts.green} Blue${tempAmounts.blue}\n`;
+                            }
                         }
-                    } else if (step.includes('藍→紫')) {
-                        const matches = step.match(/(\d+) 次.*?(\d+) 藍色.*?(\d+) 紫色/);
-                        if (matches) {
-                            const times = parseInt(matches[1]);
-                            const blueUsed = parseInt(matches[2]);
-                            const purpleGained = parseInt(matches[3]);
+                    } else if (step.includes('藍→紫') || step.includes('Blue→Purple')) {
+                        const matches = step.match(/(\d+)/g);
+                        if (matches && matches.length >= 3) {
+                            const times = parseInt(matches[0]);
+                            const blueUsed = parseInt(matches[1]);
+                            const purpleGained = parseInt(matches[2]);
                             tempAmounts.blue -= blueUsed;
                             tempAmounts.purple += purpleGained;
-                            process += `  執行後: 藍${tempAmounts.blue} 紫${tempAmounts.purple}\n`;
+                            if (currentLanguage === 'zh') {
+                                process += `  執行後: 藍${tempAmounts.blue} 紫${tempAmounts.purple}\n`;
+                            } else {
+                                process += `  After execution: Blue${tempAmounts.blue} Purple${tempAmounts.purple}\n`;
+                            }
                         }
-                    } else if (step.includes('紫→金')) {
-                        const matches = step.match(/(\d+) 次.*?(\d+) 紫色.*?(\d+) 金色/);
-                        if (matches) {
-                            const times = parseInt(matches[1]);
-                            const purpleUsed = parseInt(matches[2]);
-                            const goldGained = parseInt(matches[3]);
+                    } else if (step.includes('紫→金') || step.includes('Purple→Gold')) {
+                        const matches = step.match(/(\d+)/g);
+                        if (matches && matches.length >= 3) {
+                            const times = parseInt(matches[0]);
+                            const purpleUsed = parseInt(matches[1]);
+                            const goldGained = parseInt(matches[2]);
                             tempAmounts.purple -= purpleUsed;
                             tempAmounts.gold += goldGained;
-                            process += `  執行後: 紫${tempAmounts.purple} 金${tempAmounts.gold}\n`;
+                            if (currentLanguage === 'zh') {
+                                process += `  執行後: 紫${tempAmounts.purple} 金${tempAmounts.gold}\n`;
+                            } else {
+                                process += `  After execution: Purple${tempAmounts.purple} Gold${tempAmounts.gold}\n`;
+                            }
                         }
                     }
                 });
             } else {
-                process += `⚙️ 無需執行合成操作\n`;
+                if (currentLanguage === 'zh') {
+                    process += `⚙️ 無需執行合成操作\n`;
+                } else {
+                    process += `⚙️ No synthesis operations needed\n`;
+                }
             }
 
             process += `\n`;
 
             // 4. 最終結果驗證
-            process += `✅ 最終結果驗證:\n`;
-            process += `合成後持有: 綠${Math.floor(finalAmounts.green)} 藍${Math.floor(finalAmounts.blue)} 紫${Math.floor(finalAmounts.purple)} 金${Math.floor(finalAmounts.gold)}\n`;
-            process += `目標需求: 綠${targets.green} 藍${targets.blue} 紫${targets.purple} 金${targets.gold}\n`;
+            if (currentLanguage === 'zh') {
+                process += `✅ 最終結果驗證:\n`;
+                process += `合成後持有: 綠${Math.floor(finalAmounts.green)} 藍${Math.floor(finalAmounts.blue)} 紫${Math.floor(finalAmounts.purple)} 金${Math.floor(finalAmounts.gold)}\n`;
+                process += `目標需求: 綠${targets.green} 藍${targets.blue} 紫${targets.purple} 金${targets.gold}\n`;
+            } else {
+                process += `✅ Final Result Verification:\n`;
+                process += `After synthesis: Green${Math.floor(finalAmounts.green)} Blue${Math.floor(finalAmounts.blue)} Purple${Math.floor(finalAmounts.purple)} Gold${Math.floor(finalAmounts.gold)}\n`;
+                process += `Target requirements: Green${targets.green} Blue${targets.blue} Purple${targets.purple} Gold${targets.gold}\n`;
+            }
             
             const finalShortages = {
                 green: Math.max(0, targets.green - finalAmounts.green),
@@ -1044,7 +1645,11 @@
                 gold: Math.max(0, targets.gold - finalAmounts.gold)
             };
             
-            process += `剩餘缺口: 綠${finalShortages.green} 藍${finalShortages.blue} 紫${finalShortages.purple} 金${finalShortages.gold}\n`;
+            if (currentLanguage === 'zh') {
+                process += `剩餘缺口: 綠${finalShortages.green} 藍${finalShortages.blue} 紫${finalShortages.purple} 金${finalShortages.gold}\n`;
+            } else {
+                process += `Remaining deficit: Green${finalShortages.green} Blue${finalShortages.blue} Purple${finalShortages.purple} Gold${finalShortages.gold}\n`;
+            }
 
             return process;
         }
@@ -1052,7 +1657,7 @@
         // Generate simplified report
         function generateReport(calculation) {
             const {strategy, finalAmounts, targets, current} = calculation;
-            const now = new Date().toLocaleString('zh-TW');
+            const now = new Date().toLocaleString(currentLanguage === 'zh' ? 'zh-TW' : 'en-US');
 
             // 計算素材缺口（在報告開始就計算）
             const shortages = {
@@ -1062,25 +1667,33 @@
                 gold: Math.max(0, targets.gold - finalAmounts.gold)
             };
 
-            let report = `🎯 素材需求分析報告\n`;
-            report += `生成時間: ${now}\n\n`;
+            let report = currentLanguage === 'zh' ?
+                `🎯 素材需求分析報告\n生成時間: ${now}\n\n` :
+                `🎯 Material Requirement Analysis Report\nGeneration Time: ${now}\n\n`;
 
             // 1. 資源狀態 - 簡化顯示
-            report += `📊 資源狀態\n`;
+            if (currentLanguage === 'zh') {
+                report += `📊 資源狀態\n`;
+            } else {
+                report += `📊 Resource Status\n`;
+            }
+
             const colors = [
-                {name: '🟢綠', key: 'green'},
-                {name: '🔵藍', key: 'blue'}, 
-                {name: '🟣紫', key: 'purple'},
-                {name: '🟡金', key: 'gold'}
+                {name: '🟢綠', key: 'green', nameEn: '🟢Green'},
+                {name: '🔵藍', key: 'blue', nameEn: '🔵Blue'}, 
+                {name: '🟣紫', key: 'purple', nameEn: '🟣Purple'},
+                {name: '🟡金', key: 'gold', nameEn: '🟡Gold'}
             ];
 
             let statusLine = '';
-            colors.forEach(({name, key}) => {
+            colors.forEach(({name, key, nameEn}) => {
                 const diff = current[key] - targets[key];
+                const displayName = currentLanguage === 'zh' ? name : nameEn;
                 if (diff >= 0) {
-                    statusLine += `${name}✓ `;
+                    statusLine += `${displayName}✓ `;
                 } else {
-                    statusLine += `${name}缺${Math.abs(diff)} `;
+                    const deficitText = currentLanguage === 'zh' ? '缺' : 'need';
+                    statusLine += `${displayName}${deficitText}${Math.abs(diff)} `;
                 }
             });
             report += statusLine + '\n\n';
@@ -1090,22 +1703,47 @@
                 // 檢查是否有任何素材缺口
                 const hasAnyShortage = Object.values(shortages).some(shortage => shortage > 0);
                 if (hasAnyShortage) {
-                    report += `🔄 無需合成\n\n`;
+                    if (currentLanguage === 'zh') {
+                        report += `🔄 無需合成\n\n`;
+                    } else {
+                        report += `🔄 No synthesis needed\n\n`;
+                    }
                 } else {
-                    report += `✅ 無需合成，資源已足夠\n\n`;
+                    if (currentLanguage === 'zh') {
+                        report += `✅ 無需合成，資源已足夠\n\n`;
+                    } else {
+                        report += `✅ No synthesis needed, resources are sufficient\n\n`;
+                    }
                 }
             } else {
-                report += `🔄 合成策略\n`;
+                if (currentLanguage === 'zh') {
+                    report += `🔄 合成策略\n`;
+                } else {
+                    report += `🔄 Synthesis Strategy\n`;
+                }
                 strategy.forEach((step, index) => {
-                    if (step.includes('綠→藍')) {
-                        const matches = step.match(/(\d+) 綠色.*?(\d+) 藍色/);
-                        if (matches) report += `• 用${matches[1]}綠 → 得${matches[2]}藍\n`;
-                    } else if (step.includes('藍→紫')) {
-                        const matches = step.match(/(\d+) 藍色.*?(\d+) 紫色/);
-                        if (matches) report += `• 用${matches[1]}藍 → 得${matches[2]}紫\n`;
-                    } else if (step.includes('紫→金')) {
-                        const matches = step.match(/(\d+) 紫色.*?(\d+) 金色/);
-                        if (matches) report += `• 用${matches[1]}紫 → 得${matches[2]}金\n`;
+                    if (currentLanguage === 'zh') {
+                        if (step.includes('綠→藍')) {
+                            const matches = step.match(/(\d+) 綠色.*?(\d+) 藍色/);
+                            if (matches) report += `• 用${matches[1]}綠 → 得${matches[2]}藍\n`;
+                        } else if (step.includes('藍→紫')) {
+                            const matches = step.match(/(\d+) 藍色.*?(\d+) 紫色/);
+                            if (matches) report += `• 用${matches[1]}藍 → 得${matches[2]}紫\n`;
+                        } else if (step.includes('紫→金')) {
+                            const matches = step.match(/(\d+) 紫色.*?(\d+) 金色/);
+                            if (matches) report += `• 用${matches[1]}紫 → 得${matches[2]}金\n`;
+                        }
+                    } else {
+                        if (step.includes('Green→Blue')) {
+                            const matches = step.match(/(\d+) Green.*?(\d+) Blue/);
+                            if (matches) report += `• Use ${matches[1]}Green → Get ${matches[2]}Blue\n`;
+                        } else if (step.includes('Blue→Purple')) {
+                            const matches = step.match(/(\d+) Blue.*?(\d+) Purple/);
+                            if (matches) report += `• Use ${matches[1]}Blue → Get ${matches[2]}Purple\n`;
+                        } else if (step.includes('Purple→Gold')) {
+                            const matches = step.match(/(\d+) Purple.*?(\d+) Gold/);
+                            if (matches) report += `• Use ${matches[1]}Purple → Get ${matches[2]}Gold\n`;
+                        }
                     }
                 });
                 report += '\n';
@@ -1113,13 +1751,25 @@
 
             // 3. 凝素領域建議 - 包含減負途徑和活動建議
             if (shortages.gold === 0 && shortages.purple === 0 && shortages.blue === 0 && shortages.green === 0) {
-                report += `🎉 完美！無需刷取凝素領域\n`;
+                if (currentLanguage === 'zh') {
+                    report += `🎉 完美！無需刷取凝素領域\n`;
+                } else {
+                    report += `🎉 Perfect! No need to farm Tacet Fields\n`;
+                }
             } else {
-                report += `⚡ 凝素領域建議\n`;
+                if (currentLanguage === 'zh') {
+                    report += `⚡ 凝素領域建議\n`;
+                } else {
+                    report += `⚡ Tacet Field Recommendations\n`;
+                }
                 
                 if (shortages.gold > 0) {
                     const domainResult = calculateDomainRuns(shortages.gold, current);
-                    report += `缺口: ${shortages.gold}金\n`;
+                    if (currentLanguage === 'zh') {
+                        report += `缺口: ${shortages.gold}金\n`;
+                    } else {
+                        report += `Deficit: ${shortages.gold} Gold\n`;
+                    }
                     
                     // 計算活動雙倍掉落建議
                     const doubleDropRuns = Math.ceil(domainResult.minRuns / 2);
@@ -1129,53 +1779,94 @@
                     // 計算減負途徑建議
                     const reducedRuns = Math.ceil(domainResult.minRuns / 2);
                     
-                    report += `\n📋 刷取方案:\n`;
-                    report += `• 常規(40體/場): ${domainResult.minRuns}場 (${domainResult.minRuns * 40}體力) - 理論最少場次\n`;
-                    report += `• 安全(40體/場): ${domainResult.safeRuns}場 (${domainResult.safeRuns * 40}體力) - 含緩衝保險\n`;
-                    
-                    if (doubleDropRuns <= dailyLimit) {
-                        report += `• 活動雙倍(40體/場): ${doubleDropRuns}場 (${doubleDropRuns * 40}體力) - 1天內完成\n`;
-                    } else {
-                        const remainingRuns = domainResult.minRuns - (dailyLimit * 2 * doubleDropDays);
-                        if (remainingRuns > 0) {
-                            report += `• 活動雙倍(40體/場): ${dailyLimit}場×${doubleDropDays}天 + 常規${remainingRuns}場\n`;
-                            report += `  總計: ${(dailyLimit * doubleDropDays * 40) + (remainingRuns * 40)}體力\n`;
+                    if (currentLanguage === 'zh') {
+                        report += `\n📋 刷取方案:\n`;
+                        report += `• 常規(40體/場): ${domainResult.minRuns}場 (${domainResult.minRuns * 40}體力) - 理論最少場次\n`;
+                        report += `• 安全(40體/場): ${domainResult.safeRuns}場 (${domainResult.safeRuns * 40}體力) - 含緩衝保險\n`;
+                        
+                        if (doubleDropRuns <= dailyLimit) {
+                            report += `• 活動雙倍(40體/場): ${doubleDropRuns}場 (${doubleDropRuns * 40}體力) - 1天內完成\n`;
                         } else {
-                            report += `• 活動雙倍(40體/場): ${dailyLimit}場×${doubleDropDays}天 (${dailyLimit * doubleDropDays * 40}體力)\n`;
+                            const remainingRuns = domainResult.minRuns - (dailyLimit * 2 * doubleDropDays);
+                            if (remainingRuns > 0) {
+                                report += `• 活動雙倍(40體/場): ${dailyLimit}場×${doubleDropDays}天 + 常規${remainingRuns}場\n`;
+                                report += `  總計: ${(dailyLimit * doubleDropDays * 40) + (remainingRuns * 40)}體力\n`;
+                            } else {
+                                report += `• 活動雙倍(40體/場): ${dailyLimit}場×${doubleDropDays}天 (${dailyLimit * doubleDropDays * 40}體力)\n`;
+                            }
                         }
+                        
+                        report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力) - 2倍素材掉落\n`;
+                    } else {
+                        report += `\n📋 Farming Options:\n`;
+                        report += `• Normal(40 stamina/run): ${domainResult.minRuns} runs (${domainResult.minRuns * 40} stamina) - Theoretical minimum\n`;
+                        report += `• Safe(40 stamina/run): ${domainResult.safeRuns} runs (${domainResult.safeRuns * 40} stamina) - With buffer insurance\n`;
+                        
+                        if (doubleDropRuns <= dailyLimit) {
+                            report += `• Event Double(40 stamina/run): ${doubleDropRuns} runs (${doubleDropRuns * 40} stamina) - Complete in 1 day\n`;
+                        } else {
+                            const remainingRuns = domainResult.minRuns - (dailyLimit * 2 * doubleDropDays);
+                            if (remainingRuns > 0) {
+                                report += `• Event Double(40 stamina/run): ${dailyLimit} runs×${doubleDropDays} days + Normal ${remainingRuns} runs\n`;
+                                report += `  Total: ${(dailyLimit * doubleDropDays * 40) + (remainingRuns * 40)} stamina\n`;
+                            } else {
+                                report += `• Event Double(40 stamina/run): ${dailyLimit} runs×${doubleDropDays} days (${dailyLimit * doubleDropDays * 40} stamina)\n`;
+                            }
+                        }
+                        
+                        report += `• Reduced Load(80 stamina/run): ${reducedRuns} runs (${reducedRuns * 80} stamina) - 2x material drops\n`;
                     }
-                    
-                    report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力) - 2倍素材掉落\n`;
                     
                 } else if (shortages.purple > 0) {
                     const runs = Math.ceil(shortages.purple / 1.59);
                     const doubleRuns = Math.ceil(runs / 2);
                     const reducedRuns = Math.ceil(runs / 2);
                     
-                    report += `缺口: ${shortages.purple}紫\n`;
-                    report += `• 常規(40體/場): ${runs}場 (${runs * 40}體力)\n`;
-                    report += `• 活動雙倍(40體/場): ${doubleRuns}場 (${doubleRuns * 40}體力)\n`;
-                    report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力)\n`;
+                    if (currentLanguage === 'zh') {
+                        report += `缺口: ${shortages.purple}紫\n`;
+                        report += `• 常規(40體/場): ${runs}場 (${runs * 40}體力)\n`;
+                        report += `• 活動雙倍(40體/場): ${doubleRuns}場 (${doubleRuns * 40}體力)\n`;
+                        report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力)\n`;
+                    } else {
+                        report += `Deficit: ${shortages.purple} Purple\n`;
+                        report += `• Normal(40 stamina/run): ${runs} runs (${runs * 40} stamina)\n`;
+                        report += `• Event Double(40 stamina/run): ${doubleRuns} runs (${doubleRuns * 40} stamina)\n`;
+                        report += `• Reduced Load(80 stamina/run): ${reducedRuns} runs (${reducedRuns * 80} stamina)\n`;
+                    }
                     
                 } else if (shortages.blue > 0) {
                     const runs = Math.ceil(shortages.blue / 8.00);
                     const doubleRuns = Math.ceil(runs / 2);
                     const reducedRuns = Math.ceil(runs / 2);
                     
-                    report += `缺口: ${shortages.blue}藍\n`;
-                    report += `• 常規(40體/場): ${runs}場 (${runs * 40}體力)\n`;
-                    report += `• 活動雙倍(40體/場): ${doubleRuns}場 (${doubleRuns * 40}體力)\n`;
-                    report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力)\n`;
+                    if (currentLanguage === 'zh') {
+                        report += `缺口: ${shortages.blue}藍\n`;
+                        report += `• 常規(40體/場): ${runs}場 (${runs * 40}體力)\n`;
+                        report += `• 活動雙倍(40體/場): ${doubleRuns}場 (${doubleRuns * 40}體力)\n`;
+                        report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力)\n`;
+                    } else {
+                        report += `Deficit: ${shortages.blue} Blue\n`;
+                        report += `• Normal(40 stamina/run): ${runs} runs (${runs * 40} stamina)\n`;
+                        report += `• Event Double(40 stamina/run): ${doubleRuns} runs (${doubleRuns * 40} stamina)\n`;
+                        report += `• Reduced Load(80 stamina/run): ${reducedRuns} runs (${reducedRuns * 80} stamina)\n`;
+                    }
                     
                 } else if (shortages.green > 0) {
                     const runs = Math.ceil(shortages.green / 6.42);
                     const doubleRuns = Math.ceil(runs / 2);
                     const reducedRuns = Math.ceil(runs / 2);
                     
-                    report += `缺口: ${shortages.green}綠\n`;
-                    report += `• 常規(40體/場): ${runs}場 (${runs * 40}體力)\n`;
-                    report += `• 活動雙倍(40體/場): ${doubleRuns}場 (${doubleRuns * 40}體力)\n`;
-                    report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力)\n`;
+                    if (currentLanguage === 'zh') {
+                        report += `缺口: ${shortages.green}綠\n`;
+                        report += `• 常規(40體/場): ${runs}場 (${runs * 40}體力)\n`;
+                        report += `• 活動雙倍(40體/場): ${doubleRuns}場 (${doubleRuns * 40}體力)\n`;
+                        report += `• 減負途徑(80體/場): ${reducedRuns}場 (${reducedRuns * 80}體力)\n`;
+                    } else {
+                        report += `Deficit: ${shortages.green} Green\n`;
+                        report += `• Normal(40 stamina/run): ${runs} runs (${runs * 40} stamina)\n`;
+                        report += `• Event Double(40 stamina/run): ${doubleRuns} runs (${doubleRuns * 40} stamina)\n`;
+                        report += `• Reduced Load(80 stamina/run): ${reducedRuns} runs (${reducedRuns * 80} stamina)\n`;
+                    }
                 }
             }
 
@@ -1229,13 +1920,16 @@
                 const target = targets[color];
                 const diff = final - target;
                 
-                document.getElementById(`preview-${color}`).textContent = final + ' 個';
+                const unitText = currentLanguage === 'zh' ? ' 個' : '';
+                document.getElementById(`preview-${color}`).textContent = final + unitText;
                 
                 if (diff >= 0) {
-                    document.getElementById(`preview-${color}-status`).textContent = `✓ 達標 +${diff}`;
+                    const statusText = currentLanguage === 'zh' ? `✓ 達標 +${diff}` : `✓ Met +${diff}`;
+                    document.getElementById(`preview-${color}-status`).textContent = statusText;
                     document.getElementById(`preview-${color}-status`).className = 'text-xs opacity-90 text-green-600';
                 } else {
-                    document.getElementById(`preview-${color}-status`).textContent = `✗ 不足 ${Math.abs(diff)}`;
+                    const statusText = currentLanguage === 'zh' ? `✗ 不足 ${Math.abs(diff)}` : `✗ Short ${Math.abs(diff)}`;
+                    document.getElementById(`preview-${color}-status`).textContent = statusText;
                     document.getElementById(`preview-${color}-status`).className = 'text-xs opacity-90 text-red-600';
                 }
             });
@@ -1249,8 +1943,9 @@
             
             if (!hasInput) {
                 // 如果沒有輸入持有數量，顯示提示信息
-                document.getElementById('strategy-display').innerHTML = '<p class="text-gray-500">輸入持有數量後自動顯示最佳策略</p>';
-                document.getElementById('report-content').textContent = '輸入持有數量後自動生成詳細報告...';
+                const placeholderText = getNestedValue(i18nData[currentLanguage], 'strategy.placeholder');
+                document.getElementById('strategy-display').innerHTML = `<div class="bg-gray-50 rounded-lg p-4 text-center border-2 border-dashed border-gray-300"><p class="card-content text-base">${placeholderText}</p></div>`;
+                document.getElementById('report-content').textContent = getNestedValue(i18nData[currentLanguage], 'report.placeholder');
                 
                 // 重置執行預覽
                 ['green', 'blue', 'purple', 'gold'].forEach(color => {
@@ -1272,18 +1967,12 @@
                 gold: Math.max(0, targets.gold - current.gold)
             };
 
-            const hasSignificantShortage = shortages.gold > 10 || shortages.purple > 10 || 
-                                         shortages.blue > 10 || shortages.green > 10;
-
             // Update strategy display
             const strategyDisplay = document.getElementById('strategy-display');
             
-            // 檢查是否有任何素材不足（不只是嚴重不足）
-            const hasAnyShortage = shortages.gold > 0 || shortages.purple > 0 || 
-                                  shortages.blue > 0 || shortages.green > 0;
-
             if (strategy.length === 0) {
-                strategyDisplay.innerHTML = '<p class="text-green-600 font-semibold">🎉 無需合成，當前資源已經最優配置！</p>';
+                const noSynthesisText = getNestedValue(i18nData[currentLanguage], 'strategy.noSynthesis');
+                strategyDisplay.innerHTML = `<p class="text-green-600 font-semibold">${noSynthesisText}</p>`;
             } else {
                 strategyDisplay.innerHTML = strategy.map(step => 
                     `<div class="bg-blue-50 p-2 rounded border-l-4 border-blue-400">${step}</div>`
@@ -1313,18 +2002,6 @@
             // Set weapon to maximum level
             setWeaponLevel(90);
             
-            // Update weapon button state
-            const weaponButtons = document.querySelectorAll('.weapon-level-btn');
-            weaponButtons.forEach(btn => {
-                btn.classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
-                btn.classList.add('bg-gray-100', 'border-gray-300');
-            });
-            const maxWeaponBtn = document.querySelector('[data-level="90"]');
-            if (maxWeaponBtn) {
-                maxWeaponBtn.classList.remove('bg-gray-100', 'border-gray-300');
-                maxWeaponBtn.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
-            }
-            
             // Recalculate requirements and perform calculation
             calculateRequirements();
             performCalculation();
@@ -1335,18 +2012,6 @@
             setAllSkillLevels(10);
             setWeaponLevel(90);
             
-            // Update weapon button state
-            const weaponButtons = document.querySelectorAll('.weapon-level-btn');
-            weaponButtons.forEach(btn => {
-                btn.classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
-                btn.classList.add('bg-gray-100', 'border-gray-300');
-            });
-            const maxWeaponBtn = document.querySelector('[data-level="90"]');
-            if (maxWeaponBtn) {
-                maxWeaponBtn.classList.remove('bg-gray-100', 'border-gray-300');
-                maxWeaponBtn.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
-            }
-            
             calculateRequirements();
         });
 
@@ -1355,24 +2020,13 @@
             setAllSkillLevels(1);
             setWeaponLevel(1);
             
-            // Update weapon button state
-            const weaponButtons = document.querySelectorAll('.weapon-level-btn');
-            weaponButtons.forEach(btn => {
-                btn.classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
-                btn.classList.add('bg-gray-100', 'border-gray-300');
-            });
-            const firstWeaponBtn = document.querySelector('[data-level="1"]');
-            if (firstWeaponBtn) {
-                firstWeaponBtn.classList.remove('bg-gray-100', 'border-gray-300');
-                firstWeaponBtn.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
-            }
-            
             ['current-green', 'current-blue', 'current-purple', 'current-gold'].forEach(id => {
                 document.getElementById(id).value = 0;
             });
 
-            document.getElementById('strategy-display').innerHTML = '<p class="text-gray-500">輸入持有數量後自動顯示最佳策略</p>';
-            document.getElementById('report-content').textContent = '輸入持有數量後自動生成詳細報告...';
+            const placeholderText = getNestedValue(i18nData[currentLanguage], 'strategy.placeholder');
+            document.getElementById('strategy-display').innerHTML = `<div class="bg-gray-50 rounded-lg p-4 text-center border-2 border-dashed border-gray-300"><p class="card-content text-base">${placeholderText}</p></div>`;
+            document.getElementById('report-content').textContent = getNestedValue(i18nData[currentLanguage], 'report.placeholder');
             
             // Reset execution preview
             ['green', 'blue', 'purple', 'gold'].forEach(color => {
@@ -1390,7 +2044,8 @@
                 await navigator.clipboard.writeText(reportContent);
                 
                 const originalText = this.textContent;
-                this.textContent = '✅ 已複製！';
+                const copiedText = getNestedValue(i18nData[currentLanguage], 'messages.reportCopied');
+                this.textContent = copiedText;
                 this.classList.add('pulse-animation');
                 
                 setTimeout(() => {
@@ -1407,7 +2062,8 @@
                 document.body.removeChild(textArea);
                 
                 const originalText = this.textContent;
-                this.textContent = '✅ 已複製！';
+                const copiedText = getNestedValue(i18nData[currentLanguage], 'messages.reportCopied');
+                this.textContent = copiedText;
                 setTimeout(() => {
                     this.textContent = originalText;
                 }, 2000);
@@ -1415,16 +2071,23 @@
         });
 
         // Initialize the application
-        window.currentWeaponLevel = 1;
-        initializeSliders();
-        calculateRequirements();
-        
-        // Set initial weapon button state
-        const firstWeaponBtn = document.querySelector('[data-level="1"]');
-        if (firstWeaponBtn) {
-            firstWeaponBtn.classList.remove('bg-gray-100', 'border-gray-300');
-            firstWeaponBtn.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
+        function initializeApp() {
+            // Load saved language preference
+            const savedLang = localStorage.getItem('wuthering-waves-language') || 'zh';
+            currentLanguage = savedLang;
+            
+            // Initialize current weapon level
+            window.currentWeaponLevel = 1;
+            
+            // Initialize all components
+            initializeSliders();
+            updateLanguage(savedLang);
+            calculateRequirements();
+            renderRecords();
         }
+
+        // Start the application
+        initializeApp();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'971e47cb512c5701',t:'MTc1NTY1NTA1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
