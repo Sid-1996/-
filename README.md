@@ -1,58 +1,76 @@
-# 🎮 Sid的鳴潮智慧素材需求計算器
+# 🎮 Sid的鳴潮智慧素材需求計算器  
+**Sid's Smart Resource Calculator for Wuthering Waves**
 
-升級不再瞎猜！這是一款專為《鳴潮》玩家打造的 **智慧型網頁工具**，能快速計算角色、武器、技能養成所需素材，並提供 **最佳合成策略** 與 **體力消耗規劃**。  
-只要打開網頁，輸入你的養成目標與現有素材，系統即刻分析並生成詳細報告，讓你資源不浪費、養成更高效！
+升級不再瞎猜！這是一款專為《鳴潮》玩家打造的智慧型網頁工具，能快速計算角色、武器、技能養成所需素材，並提供最佳合成策略與體力消耗規劃。  
+Stop guessing your upgrade costs! This smart web tool helps Wuthering Waves players calculate all materials needed for character, weapon, and skill progression—with optimal synthesis paths and stamina planning.
 
-🔗 [立即試用](https://sid-1996.github.io/WutheringWaves-Resource-Calculator/)｜免安裝、開網頁就能用！
-
----
-
-## 🚀 功能亮點
-- 🔧 計算角色技能升級與武器突破所需素材  
-- 🎯 一鍵設定技能等級（如 6、8、10 級）  
-- ⚔️ 支援武器等級 1~90 的突破需求  
-- 🧪 自動生成「最佳合成策略」（綠 → 藍 → 紫 → 金）  
-- 🛡️ 避免素材過度消耗，最大化資源利用  
-- 🔄 計算副本場次與體力消耗，幫你規劃每日刷本  
-- 📋 一鍵複製詳細報告，方便分享與記錄  
-- 🖥️ 現代化 UI 設計，操作直覺、視覺清爽  
+🔗 [立即試用 Try it now](https://sid-1996.github.io/WutheringWaves-Resource-Calculator/)｜免安裝、開網頁就能用 No install needed—just open and use!
 
 ---
 
-## 📂 專案檔案結構
+## 🚀 功能亮點 | Features
+- 計算角色技能升級與武器突破所需素材  
+  Calculate materials for skill upgrades and weapon ascension  
+- 一鍵設定技能等級（如 6、8、10 級）  
+  Quick level presets for skills (e.g. Lv.6, Lv.8, Lv.10)  
+- 支援武器等級 1~90 的突破需求  
+  Supports weapon ascension from Lv.1 to Lv.90  
+- 自動生成最佳合成策略（綠 → 藍 → 紫 → 金）  
+  Auto synthesis strategy (Green → Blue → Purple → Gold)  
+- 避免素材過度消耗，最大化資源利用  
+  Prevents overuse of low-tier materials  
+- 計算副本場次與體力消耗  
+  Calculates stamina cost and dungeon runs  
+- 一鍵複製詳細報告，方便分享與記錄  
+  One-click copy of full report for sharing  
+- 現代化 UI 設計，操作直覺、視覺清爽  
+  Clean modern UI for smooth user experience  
+
+---
+
+## 📂 專案檔案結構 | Project Files
 - `index.html` → 主程式，包含 HTML、CSS、JavaScript  
+  Main app file with embedded HTML, CSS, and JS  
 - `README.md` → 說明文件（你現在看到的這份內容）  
+  This documentation file  
 
 ---
 
-## 💻 使用方式
+## 💻 使用方式 | How to Use
 - 雙擊 `index.html` 即可在瀏覽器中執行  
-- 或直接使用 👉 [線上版](https://sid-1996.github.io/WutheringWaves-Resource-Calculator/)
+  Open `index.html` directly in your browser  
+- 或使用 👉 [線上版 Online Version](https://sid-1996.github.io/WutheringWaves-Resource-Calculator/)
 
 ---
 
-## 📖 操作說明
+## 📖 操作說明 | Instructions
 1. 選擇角色技能與武器突破等級  
+   Select skill and weapon levels  
 2. 輸入你目前擁有的素材數量  
+   Input your current material inventory  
 3. 系統即時顯示素材缺口、合成建議與體力規劃  
+   Tool shows material gaps, synthesis plan, and stamina needs  
 4. 點擊「複製報告」即可快速分享或記錄結果  
+   Click “Copy Report” to share or save results  
 
 ---
 
-## 🖼️ 工具畫面預覽
-![工具示意圖](images.png)  
-![工具示意圖](screenshot.png)
+## 🖼️ 工具畫面預覽 | Screenshots
+![工具示意圖 Tool Preview](images.png)  
+![工具示意圖 Tool Preview](screenshot.png)
 
 ---
 
-## 🛠 技術說明
+## 🛠 技術說明 | Tech Stack
 - 前端技術：HTML + CSS + JavaScript  
+  Frontend: HTML + CSS + JavaScript  
 - UI 框架：TailwindCSS  
-- 字型設計：Noto Sans TC（Google Fonts）
+  UI Framework: TailwindCSS  
+- 字型設計：Noto Sans TC（Google Fonts）  
+  Font: Noto Sans TC via Google Fonts  
 
 ---
 
-## 📜 授權條款
-本工具僅供學習與遊戲愛好者交流使用，禁止商業用途。
-
----
+## 📜 授權條款 | License
+本工具僅供學習與遊戲愛好者交流使用，禁止商業用途。  
+This tool is for educational and fan-use only. Commercial use is prohibited.
