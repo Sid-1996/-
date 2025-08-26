@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sid的鳴潮智慧素材需求計算器</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 加密的 Google Analytics 代碼 -->
+<script>
+    // 使用 Base64 + 簡單混淆加密 GA 代碼
+    const encrypted_ga = "PHNjcmlwdCBhc3luYyBzcmM9Imh0dHBzOi8vd3d3Lmdvb2dsZXRhZ21hbmFnZXIuY29tL2d0YWcvanM/aWQ9Ry1SNTNDSjZRRUJHIj48L3NjcmlwdD4KPHNjcmlwdD4KICA7KGZ1bmN0aW9uKCl7CiAgICB3aW5kb3cuZGF0YUxheWVyID0gd2luZG93LmRhdGFMYXllciB8fCBbXTsKICAgIGZ1bmN0aW9uIGd0YWcoKXtkYXRhTGF5ZXIucHVzaChhcmd1bWVudHMpO30KICAgIGd0YWcoJ2pzJywgbmV3IERhdGUoKSk7CiAgICBndGFnKCdjb25maWcnLCAnRy1SNTNDSjZRRUJHJyk7CiAgfSkoKTsKPC9zY3JpcHQ+";
+    
+    function loadGA() {
+        // 解密並載入 GA
+        const decoded = atob(encrypted_ga);
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = decoded;
+        
+        // 執行解密後的腳本
+        const scripts = tempDiv.getElementsByTagName('script');
+        for(let i = 0; i < scripts.length; i++) {
+            const newScript = document.createElement('script');
+            if(scripts[i].src) {
+                newScript.src = scripts[i].src;
+                newScript.async = true;
+            } else {
+                newScript.text = scripts[i].text;
+            }
+            document.head.appendChild(newScript);
+        }
+    }
+    
+    // 延遲載入 GA (避免影響頁面載入速度)
+    window.addEventListener('load', function() {
+        setTimeout(loadGA, 1000);
+    });
+</script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap');
         
