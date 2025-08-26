@@ -55,6 +55,12 @@ Stop guessing your upgrade costs! This smart web tool helps Wuthering Waves play
 
 ---
 
+## 🗣️ 社群推薦 | Community Feedback
+想看實際使用流程與心得？巴哈姆特玩家已分享詳細教學與圖文示範：  
+👉 [【密技】鳴潮智慧素材需求計算器（武器與技能素材合成）@巴哈姆特](https://forum.gamer.com.tw/C.php?bsn=74934&snA=12466&page=1&gothis=92972#92972)
+
+---
+
 ## 🖼️ 工具畫面預覽 | Screenshots
 ![工具示意圖 Tool Preview](images.png)  
 ![工具示意圖 Tool Preview](screenshot.png)
