@@ -80,3 +80,12 @@ Stop guessing your upgrade costs! This smart web tool helps Wuthering Waves play
 ## 📜 授權條款 | License
 本工具僅供學習與遊戲愛好者交流使用，禁止商業用途。  
 This tool is for educational and fan-use only. Commercial use is prohibited.
+
+---
+
+## ☕ 支持作者
+- [💚 綠界科技贊助（支持作者）](https://p.ecpay.com.tw/E0E3A)  
+- [☕ Buy Me a Coffee](https://www.paypal.com/ncp/payment/ARWX3ZS893UKU)  
+- [🔗 Support This Project](https://www.paypal.com/ncp/payment/4YCFVARX3ADGW](https://www.paypal.com/ncp/payment/GJS4D5VTSVWG4))  
+
+感謝每一位支持者！💖
